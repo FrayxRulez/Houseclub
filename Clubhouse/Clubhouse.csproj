@@ -121,18 +121,21 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\CompositionPathParser.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\RelayCommand.cs" />
-    <Compile Include="Controls\ProfilePicture.cs" />
-    <Compile Include="Controls\ProfilePictures.xaml.cs">
-      <DependentUpon>ProfilePictures.xaml</DependentUpon>
+    <Compile Include="Controls\Cells\ChannelCell.xaml.cs">
+      <DependentUpon>ChannelCell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Cells\EventCalendarCell.xaml.cs">
+      <DependentUpon>EventCalendarCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProfilePicture.cs" />
     <Compile Include="Logs\ILogListener.cs" />
     <Compile Include="Logs\Log.cs" />
     <Compile Include="Logs\Logger.cs" />
     <Compile Include="Logs\LogHelper.cs" />
     <Compile Include="Logs\LogLevel.cs" />
+    <Compile Include="Models\Club.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -221,7 +224,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\ProfilePictures.xaml">
+    <Page Include="Controls\Cells\ChannelCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Cells\EventCalendarCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

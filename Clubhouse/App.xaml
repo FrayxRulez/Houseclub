@@ -12,6 +12,14 @@
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
+
+            <Style x:Key="InfoBodyTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}"/>
+            </Style>
+
+            <Style x:Key="InfoCaptionTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource CaptionTextBlockStyle}">
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 

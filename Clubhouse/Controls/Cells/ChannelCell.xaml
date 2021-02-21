@@ -1,0 +1,58 @@
+﻿<UserControl
+    x:Class="Clubhouse.Controls.Cells.ChannelCell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Clubhouse.Controls.Cells"
+    xmlns:controls="using:Clubhouse.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid Background="#ffffff" CornerRadius="12" Padding="12,8" Margin="0,12,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock
+            x:Name="ClubName"
+            Style="{StaticResource CaptionTextBlockStyle}"/>
+        <TextBlock
+            x:Name="Topic"
+            Style="{StaticResource BaseTextBlockStyle}"
+            Grid.Row="1"/>
+
+        <Grid x:Name="ContentPanel" Margin="0,12,0,0" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <controls:ProfilePicture
+                x:Name="Picture1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Width="48"
+                Height="48"/>
+            <controls:ProfilePicture
+                x:Name="Picture2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Width="48"
+                Height="48"/>
+
+            <StackPanel Grid.Column="1">
+                <StackPanel x:Name="Users"/>
+
+                <TextBlock Style="{StaticResource InfoCaptionTextBlockStyle}">
+                    <Run x:Name="All"/>
+                    <Run Text="[]"/>
+                    <Run Text="/"/>
+                    <Run x:Name="Speakers"/>
+                    <Run Text="[]"/>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

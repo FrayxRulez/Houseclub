@@ -3,6 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Clubhouse"
+    xmlns:cells="using:Clubhouse.Controls.Cells"
+    xmlns:common="using:Clubhouse.Common"
     xmlns:controls="using:Clubhouse.Controls"
     xmlns:models="using:Clubhouse.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,56 +13,29 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Background="#f2efe4">
-        <ListView ItemsSource="{x:Bind ViewModel.Items}">
+        <ListView ItemsSource="{x:Bind ViewModel.Channels}">
+            <ListView.Header>
+                <Grid Background="#e7e3d5" CornerRadius="12" Padding="12,0,12,8" Margin="0,12,0,0" MaxWidth="640">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.Events}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:Event">
+                                <cells:EventCalendarCell
+                                    Event="{x:Bind}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Channel">
-                    <Grid Background="#ffffff" CornerRadius="12" Padding="12,8" Margin="0,12,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            Text="{x:Bind ClubName}"
-                            Style="{StaticResource CaptionTextBlockStyle}"/>
-                        <TextBlock
-                            Text="{x:Bind topic}"
-                            Style="{StaticResource BaseTextBlockStyle}"
-                            Grid.Row="1"/>
-
-                        <Grid Margin="0,12,0,0" Grid.Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <controls:ProfilePictures
-                                Users="{x:Bind users}"
-                                Margin="0,0,12,0"/>
-
-                            <StackPanel Grid.Column="1">
-                                <ItemsControl ItemsSource="{x:Bind users}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="models:User">
-                                            <TextBlock Text="{x:Bind Name}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-
-                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}">
-                                    <Run Text="{x:Bind numAll}"/>
-                                    <Run Text="[]"/>
-                                    <Run Text="/"/>
-                                    <Run Text="{x:Bind numSpeakers}"/>
-                                    <Run Text="[]"/>
-                                </TextBlock>
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
+                    <cells:ChannelCell
+                        Channel="{x:Bind}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemsPanel>

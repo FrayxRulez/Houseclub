@@ -62,58 +62,58 @@ namespace Clubhouse.Models
 		* */
 
         [JsonPropertyName("creator_user_profile_id")]
-        public int creatorUserProfileId { get; set; }
+        public int CreatorUserProfileId { get; set; }
 
         [JsonPropertyName("channel_id")]
-        public int channelId { get; set; }
+        public int ChannelId { get; set; }
 
         [JsonPropertyName("channel")]
         public String channel { get; set; }
 
         [JsonPropertyName("topic")]
-        public String topic { get; set; }
+        public String Topic { get; set; }
 
         [JsonPropertyName("is_private")]
-        public bool isPrivate { get; set; }
+        public bool IsPrivate { get; set; }
 
         [JsonPropertyName("is_social_mode")]
-        public bool isSocialMode { get; set; }
+        public bool IsSocialMode { get; set; }
 
         [JsonPropertyName("url")]
-        public String url { get; set; }
+        public String Url { get; set; }
 
         [JsonPropertyName("num_other")]
-        public int numOther { get; set; }
+        public int NumOther { get; set; }
 
         [JsonPropertyName("has_blocked_speakers")]
-        public bool hasBlockedSpeakers { get; set; }
+        public bool HasBlockedSpeakers { get; set; }
 
         [JsonPropertyName("is_explore_channel")]
-        public bool isExploreChannel { get; set; }
+        public bool IsExploreChannel { get; set; }
 
         [JsonPropertyName("num_speakers")]
-        public int numSpeakers { get; set; }
+        public int NumSpeakers { get; set; }
 
         [JsonPropertyName("num_all")]
-        public int numAll { get; set; }
+        public int NumAll { get; set; }
 
         [JsonPropertyName("users")]
-        public List<ChannelUser> users { get; set; }
+        public List<ChannelUser> Users { get; set; }
 
         [JsonPropertyName("token")]
-        public String token { get; set; }
+        public String Token { get; set; }
 
         [JsonPropertyName("is_handraise_enabled")]
-        public bool isHandraiseEnabled { get; set; }
+        public bool IsHandraiseEnabled { get; set; }
 
         [JsonPropertyName("pubnub_token")]
-        public String pubnubToken { get; set; }
+        public String PubnubToken { get; set; }
 
         [JsonPropertyName("pubnub_heartbeat_value")]
-        public int pubnubHeartbeatValue { get; set; }
+        public int PubnubHeartbeatValue { get; set; }
 
         [JsonPropertyName("pubnub_heartbeat_interval")]
-        public int pubnubHeartbeatInterval { get; set; }
+        public int PubnubHeartbeatInterval { get; set; }
 
         //[JsonPropertyName("club_id")]
         //public int ClubId { get; set; }

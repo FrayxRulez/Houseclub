@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 
 namespace Clubhouse.Models
@@ -11,7 +12,7 @@ namespace Clubhouse.Models
         public string Name { get; set; }
 
         [JsonPropertyName("photo_url")]
-        public string PhotoUrl { get; set; }
+        public Uri PhotoUrl { get; set; }
 
         [JsonPropertyName("username")]
         public string Username { get; set; }

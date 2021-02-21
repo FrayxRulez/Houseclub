@@ -1,0 +1,74 @@
+﻿<Page
+    x:Class="Clubhouse.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Clubhouse"
+    xmlns:controls="using:Clubhouse.Controls"
+    xmlns:models="using:Clubhouse.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="#f2efe4">
+        <ListView ItemsSource="{x:Bind ViewModel.Items}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Channel">
+                    <Grid Background="#ffffff" CornerRadius="12" Padding="12,8" Margin="0,12,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Text="{x:Bind ClubName}"
+                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock
+                            Text="{x:Bind topic}"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Grid.Row="1"/>
+
+                        <Grid Margin="0,12,0,0" Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <controls:ProfilePictures
+                                Users="{x:Bind users}"
+                                Margin="0,0,12,0"/>
+
+                            <StackPanel Grid.Column="1">
+                                <ItemsControl ItemsSource="{x:Bind users}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="models:User">
+                                            <TextBlock Text="{x:Bind Name}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}">
+                                    <Run Text="{x:Bind numAll}"/>
+                                    <Run Text="[]"/>
+                                    <Run Text="/"/>
+                                    <Run Text="{x:Bind numSpeakers}"/>
+                                    <Run Text="[]"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel
+                        MaxWidth="640"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+    </Grid>
+</Page>

@@ -10,8 +10,8 @@
 
     <Grid>
         <StackPanel>
-            <TextBox Text="{x:Bind ViewModel.VerificationCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Command="{x:Bind ViewModel.SendCommand}"/>
+            <TextBox Header="Verification code" Text="{x:Bind ViewModel.VerificationCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Content="Send" Command="{x:Bind ViewModel.SendCommand}"/>
         </StackPanel>
     </Grid>
 </Page>

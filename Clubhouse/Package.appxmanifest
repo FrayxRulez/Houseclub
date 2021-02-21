@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="af22be69-39d1-41da-b990-44d01a56ec87"
-    Publisher="CN=Fela"
+    Name="2335FelaAmeghino.Clubhouse"
+    Publisher="CN=6CC21870-4FE1-413E-871A-4A0E9C2C54EB"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="af22be69-39d1-41da-b990-44d01a56ec87" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="3061a664-9600-4804-b395-89113263906a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Clubhouse</DisplayName>
-    <PublisherDisplayName>Fela</PublisherDisplayName>
+    <PublisherDisplayName>Fela Ameghino</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

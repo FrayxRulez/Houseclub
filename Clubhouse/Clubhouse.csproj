@@ -17,8 +17,9 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <LangVersion>9.0</LangVersion>
+    <PackageCertificateThumbprint>37786476465F52810AD59FEF348673B9E47F0353</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -178,6 +179,7 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\FullUser.cs" />
     <Compile Include="Models\User.cs" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

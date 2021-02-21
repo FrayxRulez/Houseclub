@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Clubhouse.Logs;
+using System;
 using System.Threading;
-using Clubhouse.Logs;
 
 namespace Clubhouse.Services.ViewService
 {

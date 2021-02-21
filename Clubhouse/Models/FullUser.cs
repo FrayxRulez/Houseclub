@@ -2,7 +2,7 @@ using System;
 
 namespace Clubhouse.Models
 {
-	public class FullUser : User
+    public class FullUser : User
 	{
 		public string dsplayname { get; set; }
 		public string bio { get; set; }

@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Clubhouse.Logs;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Clubhouse.Common;
-using Clubhouse.Logs;
 using Windows.System;
 
 namespace Clubhouse.Navigation

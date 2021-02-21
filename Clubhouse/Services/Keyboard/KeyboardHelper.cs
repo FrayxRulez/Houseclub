@@ -1,5 +1,5 @@
-﻿using System;
-using Clubhouse.Navigation;
+﻿using Clubhouse.Navigation;
+using System;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Input;

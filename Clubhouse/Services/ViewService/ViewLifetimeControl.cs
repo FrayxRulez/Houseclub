@@ -20,11 +20,11 @@
 // certain objects may be bound to UI on given threads. Properties of those objects should only be updated
 // on that UI thread.
 
-using System;
-using System.Collections.Concurrent;
 using Clubhouse.Logs;
 using Clubhouse.Navigation;
 using Clubhouse.Navigation.Services;
+using System;
+using System.Collections.Concurrent;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;

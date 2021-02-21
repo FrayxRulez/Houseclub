@@ -9,7 +9,7 @@ namespace Clubhouse.Services
 {
     public class ClubhouseAPIController
     {
-        private static ClubhouseAPIController instance;
+        private static readonly ClubhouseAPIController instance;
         private const String TAG = "ClubhouseAPI";
         private const bool DEBUG = false;
 
@@ -32,7 +32,7 @@ namespace Clubhouse.Services
 
         //private WorkerThread apiThread;
         //private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-        private HttpClient httpClient = new HttpClient();
+        private readonly HttpClient httpClient = new HttpClient();
 
         public ClubhouseAPIController()
         {

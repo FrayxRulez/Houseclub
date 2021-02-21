@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Clubhouse.Logs;
+using Clubhouse.Navigation;
+using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using Clubhouse.Logs;
-using Clubhouse.Navigation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;

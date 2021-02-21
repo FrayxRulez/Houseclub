@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Clubhouse.Common;
+using Clubhouse.Logs;
+using Clubhouse.Services.ViewService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Clubhouse.Common;
-using Clubhouse.Logs;
-using Clubhouse.Services.ViewService;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;

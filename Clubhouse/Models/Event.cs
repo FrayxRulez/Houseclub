@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Clubhouse.Models
 {
-	public class Event
+    public class Event
 	{
 		[JsonPropertyName("channel")]
 		public string channel { get; set; }

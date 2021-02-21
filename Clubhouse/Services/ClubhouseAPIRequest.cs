@@ -13,9 +13,10 @@ namespace Clubhouse.Services
         //public File fileToUpload;
         public Uri contentUriToUpload;
         public String fileFieldName, fileMimeType;
+
         //private ProgressDialog progress;
 
-        bool canceled;
+        readonly bool canceled;
         //Call currentRequest;
 
         public ClubhouseAPIRequest(HttpMethod method, String path)

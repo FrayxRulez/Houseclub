@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Clubhouse.Logs;
+using System;
 using System.Collections.Generic;
-using Clubhouse.Logs;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 

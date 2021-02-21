@@ -3,7 +3,7 @@ namespace Clubhouse.Services
     public class ClubhouseErrorResponse /*: ErrorResponse*/
     {
 
-        private string message;
+        private readonly string message;
 
         public ClubhouseErrorResponse(int code, string message)
         {

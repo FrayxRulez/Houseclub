@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Clubhouse.Navigation.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Clubhouse.Navigation.Services;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.UI.Core;

@@ -1,8 +1,12 @@
 ﻿using Clubhouse.Common;
+using Clubhouse.Models;
 using Clubhouse.Navigation;
 using Clubhouse.Services;
 using Clubhouse.Services.Methods;
 using Clubhouse.Views;
+using System.Collections.Generic;
+using System.Linq;
+using Windows.System.UserProfile;
 
 namespace Clubhouse.ViewModels
 {
@@ -11,7 +15,21 @@ namespace Clubhouse.ViewModels
         public LoginViewModel(ClubhouseAPIController dataService)
             : base(dataService)
         {
+            SelectedCountry = Countries.FirstOrDefault(x => x.Code == GlobalizationPreferences.HomeGeographicRegion);
+
+            if (SelectedCountry != null)
+            {
+                PhoneNumber = $"+{SelectedCountry.PhoneCode}";
+            }
+
             SendCommand = new RelayCommand(SendExecute);
+        }
+
+        private Country _selectedCountry;
+        public Country SelectedCountry
+        {
+            get => _selectedCountry;
+            set => Set(ref _selectedCountry, value);
         }
 
         private string _phoneNumber;
@@ -20,6 +38,8 @@ namespace Clubhouse.ViewModels
             get => _phoneNumber;
             set => Set(ref _phoneNumber, value);
         }
+
+        public IList<Country> Countries { get; } = Country.Countries.OrderBy(x => x.DisplayName).ToList();
 
         public RelayCommand SendCommand { get; }
         private async void SendExecute()

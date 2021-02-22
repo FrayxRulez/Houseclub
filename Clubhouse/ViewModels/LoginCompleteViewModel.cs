@@ -43,7 +43,7 @@ namespace Clubhouse.ViewModels
             if (response != null)
             {
                 ClubhouseSession.userToken = response.AuthToken;
-                ClubhouseSession.userID = $"{response.UserProfile.UserId}";
+                ClubhouseSession.userID = response.UserProfile.Id;
                 ClubhouseSession.isWaitlisted = response.IsWaitlisted;
                 ClubhouseSession.write();
 

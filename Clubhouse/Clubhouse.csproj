@@ -121,22 +121,45 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\Converters.cs" />
     <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\KeyedList.cs" />
+    <Compile Include="Common\LoopThread.cs" />
+    <Compile Include="Common\LoopThreadPool.cs" />
+    <Compile Include="Common\PhoneNumber.cs" />
     <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Common\XamlResourceLoader.cs" />
     <Compile Include="Controls\Cells\ChannelCell.xaml.cs">
       <DependentUpon>ChannelCell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Cells\EventCalendarCell.xaml.cs">
       <DependentUpon>EventCalendarCell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Cells\RoomUserCell.xaml.cs">
+      <DependentUpon>RoomUserCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GlyphButton.cs" />
+    <Compile Include="Controls\LottieView.cs" />
+    <Compile Include="Controls\PhoneTextBox.cs" />
     <Compile Include="Controls\ProfilePicture.cs" />
+    <Compile Include="Controls\Superellipse.cs" />
     <Compile Include="Logs\ILogListener.cs" />
     <Compile Include="Logs\Log.cs" />
     <Compile Include="Logs\Logger.cs" />
     <Compile Include="Logs\LogHelper.cs" />
     <Compile Include="Logs\LogLevel.cs" />
     <Compile Include="Models\Club.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\OnlineUser.cs" />
+    <Compile Include="Services\Methods\GetOnlineFriends.cs" />
     <Compile Include="Services\VoiceService.cs" />
+    <Compile Include="Strings\en\Resources.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resw</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Delegates\IListViewDelegate.cs" />
+    <Compile Include="ViewModels\Delegates\IViewModelDelegate.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -172,6 +195,9 @@
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RoomPage.xaml.cs">
+      <DependentUpon>RoomPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -185,7 +211,10 @@
     <Compile Include="Models\FullUser.cs" />
     <Compile Include="Models\User.cs" />
     <Content Include="Assets\Fonts\Clubhouse.ttf" />
+    <Content Include="Assets\Login.tgs" />
+    <Content Include="Assets\LoginComplete.tgs" />
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\Login.svg" />
     <Content Include="Assets\Logos\LargeTile.scale-100.png" />
     <Content Include="Assets\Logos\LargeTile.scale-125.png" />
     <Content Include="Assets\Logos\LargeTile.scale-150.png" />
@@ -237,13 +266,6 @@
     <Content Include="Assets\Logos\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logos\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Compile Include="Services\Methods\AcceptSpeakerInvite.cs" />
     <Compile Include="Services\Methods\ActivePing.cs" />
     <Compile Include="Services\Methods\AudienceReply.cs" />
@@ -271,6 +293,11 @@
     <Compile Include="Services\ClubhouseAPIRequest.cs" />
     <Compile Include="Services\ClubhouseErrorResponse.cs" />
     <Compile Include="Services\ClubhouseSession.cs" />
+    <PRIResource Include="Strings\en\Resources.resw">
+      <Generator>ReswFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.cs</LastGenOutput>
+      <CustomToolNamespace>Clubhouse.Strings</CustomToolNamespace>
+    </PRIResource>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -282,6 +309,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Cells\EventCalendarCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Cells\RoomUserCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Common.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -301,8 +336,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RoomPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AgoraWinRT">
+      <Version>1.0.0</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
     </PackageReference>
@@ -312,21 +354,15 @@
     <PackageReference Include="PubnubUWP">
       <Version>4.13.0</Version>
     </PackageReference>
+    <PackageReference Include="RLottie">
+      <Version>1.0.0</Version>
+    </PackageReference>
     <PackageReference Include="System.Text.Json">
       <Version>5.0.1</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.25.0</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="AgoraWinRT">
-      <HintPath>$(ProjectDir)\..\Agora\$(Platform)\AgoraWinRT.winmd</HintPath>
-      <Implementation>AgoraWinRT.dll</Implementation>
-    </Reference>
-    <ReferenceCopyLocalPaths Include="$(ProjectDir)\..\Agora\$(Platform)\AgoraWinRT.dll" />
-    <ReferenceCopyLocalPaths Include="$(ProjectDir)\..\Agora\$(Platform)\AgoraWinRT.pri" />
-    <ReferenceCopyLocalPaths Include="$(ProjectDir)\..\AgoraSDK\$(Platform)\agora_rtc_sdk.dll" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

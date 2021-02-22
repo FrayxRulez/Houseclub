@@ -1,4 +1,5 @@
-﻿using Clubhouse.Navigation;
+﻿using Clubhouse.Common;
+using Clubhouse.Navigation;
 using Clubhouse.Navigation.Services;
 using Clubhouse.Services;
 using Clubhouse.Views;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Resources;
 
 namespace Clubhouse
 {
@@ -22,6 +24,12 @@ namespace Clubhouse
         public App()
         {
             InitializeComponent();
+        }
+
+        protected override void OnWindowCreated(WindowCreatedEventArgs args)
+        {
+            CustomXamlResourceLoader.Current = new XamlResourceLoader();
+            base.OnWindowCreated(args);
         }
 
         public override Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)

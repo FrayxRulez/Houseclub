@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="2335FelaAmeghino.Clubhouse" Publisher="CN=6CC21870-4FE1-413E-871A-4A0E9C2C54EB" Version="0.1.12.0" />
+  <Identity Name="2335FelaAmeghino.Clubhouse" Publisher="CN=6CC21870-4FE1-413E-871A-4A0E9C2C54EB" Version="0.1.16.0" />
   <mp:PhoneIdentity PhoneProductId="3061a664-9600-4804-b395-89113263906a" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Clubhouse</DisplayName>

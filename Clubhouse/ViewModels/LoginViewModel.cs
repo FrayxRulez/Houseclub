@@ -44,10 +44,16 @@ namespace Clubhouse.ViewModels
         public RelayCommand SendCommand { get; }
         private async void SendExecute()
         {
-            var response = await DataService.SendAsync(new StartPhoneNumberAuth(_phoneNumber));
+            var phoneNumber = _phoneNumber?.Replace(" ", string.Empty);
+            if (phoneNumber == null)
+            {
+                return;
+            }
+
+            var response = await DataService.SendAsync(new StartPhoneNumberAuth(phoneNumber));
             if (response != null && response.success)
             {
-                NavigationService.Navigate(typeof(LoginCompletePage), _phoneNumber);
+                NavigationService.Navigate(typeof(LoginCompletePage), phoneNumber);
             }
         }
     }

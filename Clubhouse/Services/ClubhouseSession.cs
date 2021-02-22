@@ -7,7 +7,9 @@ namespace Clubhouse.Services
     public class ClubhouseSession
     {
 
-        public static string deviceID, userID, userToken;
+        public static string deviceID;
+        public static ulong userID;
+        public static string userToken;
         public static bool isWaitlisted;
         public static User self;
 
@@ -15,7 +17,7 @@ namespace Clubhouse.Services
         {
             var prefs = ApplicationData.Current.LocalSettings.CreateContainer("session", ApplicationDataCreateDisposition.Always);
             deviceID = GetValueOrDefault<string>(prefs, "device_id", null);
-            userID = GetValueOrDefault<string>(prefs, "user_id", null);
+            userID = GetValueOrDefault<ulong>(prefs, "user_id", 0);
             userToken = GetValueOrDefault<string>(prefs, "user_token", null);
             isWaitlisted = GetValueOrDefault(prefs, "waitlisted", false);
             if (deviceID == null)
@@ -36,7 +38,7 @@ namespace Clubhouse.Services
 
         public static bool isLoggedIn()
         {
-            return userID != null;
+            return userToken != null;
         }
 
         //private static SharedPreferences prefs()
@@ -79,6 +81,11 @@ namespace Clubhouse.Services
             }
 
             return value;
+        }
+
+        protected static void RemoveValue(ApplicationDataContainer container, string key)
+        {
+            container.Values.Remove(key);
         }
     }
 }

@@ -48,6 +48,11 @@ namespace Clubhouse.Services
 
         }
 
+        public async void Send<T>(ClubhouseAPIRequest<T> request)
+        {
+            await SendAsync(request);
+        }
+
         public async Task<T> SendAsync<T>(ClubhouseAPIRequest<T> request)
         {
             try
@@ -128,7 +133,7 @@ namespace Clubhouse.Services
                 if (ClubhouseSession.isLoggedIn())
                 {
                     httpRequest.Headers.TryAddWithoutValidation("Authorization", "Token " + ClubhouseSession.userToken);
-                    httpRequest.Headers.Add("CH-UserID", ClubhouseSession.userID);
+                    httpRequest.Headers.Add("CH-UserID", $"{ClubhouseSession.userID}");
                 }
                 //Call call = httpClient.newCall(bldr.build());
                 //if (DEBUG)

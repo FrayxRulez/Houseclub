@@ -12,38 +12,133 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Background="#f2efe4">
-        <ListView ItemsSource="{x:Bind ViewModel.Channels}" IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick">
-            <ListView.Header>
-                <Grid Background="#e7e3d5" CornerRadius="12" Padding="12,0,12,8" Margin="0,12,0,0" MaxWidth="640">
-                    <ItemsControl ItemsSource="{x:Bind ViewModel.Events}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="models:Event">
-                                <cells:EventCalendarCell
-                                    Event="{x:Bind}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
-            </ListView.Header>
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:Channel">
-                    <cells:ChannelCell
-                        Channel="{x:Bind}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="Padding" Value="0"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsStackPanel
-                        MaxWidth="640"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
+    <Grid x:Name="LayoutRoot" SizeChanged="LayoutRoot_SizeChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <controls:GlyphButton
+                Glyph="&#xE905;"/>
+
+            <controls:GlyphButton
+                Glyph="&#xE904;"
+                Grid.Column="2"/>
+
+            <controls:GlyphButton
+                Glyph="&#xE903;"
+                Grid.Column="3"/>
+
+            <controls:GlyphButton
+                Glyph="&#xE902;"
+                Grid.Column="4"/>
+        </Grid>
+        
+        <SplitView x:Name="Split" DisplayMode="Inline" PanePlacement="Right" IsPaneOpen="True" Grid.Row="1">
+            <SplitView.Pane>
+                <ListView ItemsSource="{x:Bind ViewModel.OnlineUsers}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:OnlineUser">
+                            <Grid Padding="0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid
+                                    Margin="0,0,12,0"
+                                    Grid.RowSpan="2">
+                                    
+                                    <controls:ProfilePicture
+                                        Source="{x:Bind}"
+                                        Width="48"
+                                        Height="48"/>
+
+                                    <Border
+                                        Background="{ThemeResource OnlineBackgroundBrush}"
+                                        UseLayoutRounding="False"
+                                        Width="16"
+                                        Height="16"
+                                        CornerRadius="8"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,0,-2,-2">
+                                        <Border
+                                            Opacity="{x:Bind common:Converters.LastActiveOpacity(LastActiveMinutes)}"
+                                            Background="{ThemeResource OnlineForegroundBrush}"
+                                            Width="12"
+                                            Height="12"
+                                            CornerRadius="6"/>
+                                    </Border>
+                                </Grid>
+
+
+                                <TextBlock
+                                    Text="{x:Bind Name}"
+                                    FontWeight="SemiBold"
+                                    VerticalAlignment="Bottom"
+                                    Grid.Column="1"/>
+
+                                <TextBlock
+                                    Text="{x:Bind common:Converters.LastActive(LastActiveMinutes)}"
+                                    Style="{StaticResource InfoCaptionTextBlockStyle}"
+                                    VerticalAlignment="Top"
+                                    Grid.Column="1"
+                                    Grid.Row="1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SplitView.Pane>
+            
+            <ListView ItemsSource="{x:Bind ViewModel.Channels}" IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick" Grid.Column="1">
+                <ListView.Header>
+                    <Border MaxWidth="500">
+                        <Grid Background="{ThemeResource EventsBackgroundBrush}" CornerRadius="12" Padding="12,0,12,8" Margin="12,12,12,0">
+                            <ItemsControl ItemsSource="{x:Bind ViewModel.Events}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Event">
+                                        <cells:EventCalendarCell
+                                            Event="{x:Bind}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </Border>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Channel">
+                        <cells:ChannelCell
+                            Channel="{x:Bind}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Padding" Value="0"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel
+                            MaxWidth="500"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+
+        </SplitView>
     </Grid>
 </Page>

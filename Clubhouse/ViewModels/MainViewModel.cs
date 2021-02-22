@@ -21,6 +21,7 @@ namespace Clubhouse.ViewModels
 
             Channels = new ObservableCollection<Channel>();
             Events = new ObservableCollection<Event>();
+            OnlineUsers = new ObservableCollection<OnlineUser>();
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -41,10 +42,29 @@ namespace Clubhouse.ViewModels
                     Events.Add(item);
                 }
             }
+
+            await LoadOnlineFriendsAsync();
+        }
+
+        private async Task LoadOnlineFriendsAsync()
+        {
+            var response = await DataService.SendAsync(new GetOnlineFriends());
+            if (response != null)
+            {
+                OnlineUsers.Clear();
+
+                foreach (var item in response.Users)
+                {
+                    OnlineUsers.Add(item);
+                }
+            }
         }
 
         public ObservableCollection<Channel> Channels { get; private set; }
+
         public ObservableCollection<Event> Events { get; private set; }
+
+        public ObservableCollection<OnlineUser> OnlineUsers { get; private set; }
 
         public async void JoinChannel(Channel channel)
         {

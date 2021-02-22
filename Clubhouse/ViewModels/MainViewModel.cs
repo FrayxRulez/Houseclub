@@ -11,9 +11,13 @@ namespace Clubhouse.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public MainViewModel(ClubhouseAPIController dataService)
+        private readonly IVoiceService _voiceService;
+
+        public MainViewModel(ClubhouseAPIController dataService, IVoiceService voiceService)
             : base(dataService)
         {
+            _voiceService = voiceService;
+
             Channels = new ObservableCollection<Channel>();
             Events = new ObservableCollection<Event>();
         }
@@ -40,5 +44,14 @@ namespace Clubhouse.ViewModels
 
         public ObservableCollection<Channel> Channels { get; private set; }
         public ObservableCollection<Event> Events { get; private set; }
+
+        public async void JoinChannel(Channel channel)
+        {
+            var response = await DataService.SendAsync(new JoinChannel(channel.channel));
+            if (response != null)
+            {
+                _voiceService.JoinChannel(response);
+            }
+        }
     }
 }

@@ -3,10 +3,12 @@
     public class ViewModelLocator
     {
         private readonly Clubhouse.Services.ClubhouseAPIController _dataService;
+        private readonly Clubhouse.Services.IVoiceService _voiceService;
 
         public ViewModelLocator()
         {
             _dataService = new Clubhouse.Services.ClubhouseAPIController();
+            _voiceService = new Clubhouse.Services.VoiceService();
         }
 
         private static ViewModelLocator _current;
@@ -25,7 +27,11 @@
             }
             else if (type == typeof(Clubhouse.ViewModels.MainViewModel))
             {
-                return (T)(object)new Clubhouse.ViewModels.MainViewModel(_dataService);
+                return (T)(object)new Clubhouse.ViewModels.MainViewModel(_dataService, _voiceService);
+            }
+            else if (type == typeof(Clubhouse.ViewModels.RoomViewModel))
+            {
+                return (T)(object)new Clubhouse.ViewModels.RoomViewModel(_dataService, _voiceService);
             }
 
             return default;

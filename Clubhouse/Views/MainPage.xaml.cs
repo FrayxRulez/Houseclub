@@ -1,4 +1,5 @@
-﻿using Clubhouse.Navigation;
+﻿using Clubhouse.Models;
+using Clubhouse.Navigation;
 using Clubhouse.ViewModels;
 using Windows.UI.Xaml.Controls;
 
@@ -12,6 +13,11 @@ namespace Clubhouse
         {
             InitializeComponent();
             DataContext = ViewModelLocator.Current.Resolve<MainViewModel>();
+        }
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.JoinChannel(e.ClickedItem as Channel);
         }
     }
 }

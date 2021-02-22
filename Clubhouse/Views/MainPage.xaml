@@ -13,7 +13,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Background="#f2efe4">
-        <ListView ItemsSource="{x:Bind ViewModel.Channels}">
+        <ListView ItemsSource="{x:Bind ViewModel.Channels}" IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick">
             <ListView.Header>
                 <Grid Background="#e7e3d5" CornerRadius="12" Padding="12,0,12,8" Margin="0,12,0,0" MaxWidth="640">
                     <ItemsControl ItemsSource="{x:Bind ViewModel.Events}">

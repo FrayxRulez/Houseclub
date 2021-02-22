@@ -1,4 +1,5 @@
-﻿using Clubhouse.Models;
+﻿using Clubhouse.Common;
+using Clubhouse.Models;
 using Clubhouse.Navigation;
 using Clubhouse.Services;
 using Clubhouse.Services.Methods;
@@ -22,6 +23,8 @@ namespace Clubhouse.ViewModels
             Channels = new ObservableCollection<Channel>();
             Events = new ObservableCollection<Event>();
             OnlineUsers = new ObservableCollection<OnlineUser>();
+
+            LogoutCommand = new RelayCommand(LogoutExecute);
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -74,6 +77,13 @@ namespace Clubhouse.ViewModels
                 _voiceService.JoinChannel(response);
                 NavigationService.Navigate(typeof(RoomPage));
             }
+        }
+
+        public RelayCommand LogoutCommand { get; }
+        private void LogoutExecute()
+        {
+            ClubhouseSession.clear();
+            NavigationService.Navigate(typeof(LoginPage));
         }
     }
 }

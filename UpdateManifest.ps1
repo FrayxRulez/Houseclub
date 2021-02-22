@@ -30,7 +30,7 @@ if ([double]::TryParse($out, [ref]$rtn) -ne $true) {
 
 $h = @{}
 $h["DEBUG"] = "2335FelaAmeghino.Clubhouse"
-$h["RELEASE"] = "2335FelaAmeghino.Clubhouse"
+$h["RELEASE"] = "2335FelaAmeghino.Houseclub"
 
 $identity = $document.GetElementsByTagName("Identity")[0]
 $original1 = $identity.Attributes["Name"].Value
@@ -49,7 +49,7 @@ if ($original1 -eq $identity.Attributes["Name"].Value -and $original2 -eq $ident
 
 $h = @{}
 $h["DEBUG"] = "Clubhouse"
-$h["RELEASE"] = "Clubhouse"
+$h["RELEASE"] = "Houseclub"
 
 $properties = $document.GetElementsByTagName("Properties")[0]
 $displayName = $properties.GetElementsByTagName("DisplayName")[0]
@@ -57,7 +57,7 @@ $displayName.InnerText = $h[$config]
 
 $h = @{}
 $h["DEBUG"] = "Clubhouse"
-$h["RELEASE"] = "Clubhouse"
+$h["RELEASE"] = "Houseclub"
 
 $visualElements = $document.GetElementsByTagName("uap:VisualElements")[0]
 $visualElements.Attributes["DisplayName"].Value = $h[$config]

@@ -5,6 +5,7 @@ using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 namespace Clubhouse.Views
 {
@@ -18,6 +19,11 @@ namespace Clubhouse.Views
             DataContext = ViewModelLocator.Current.Resolve<LoginViewModel>();
 
             Diagnostics.Text = Package.Current.GetVersion();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            Frame.BackStack.Clear();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)

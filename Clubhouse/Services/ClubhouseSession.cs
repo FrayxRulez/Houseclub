@@ -36,6 +36,12 @@ namespace Clubhouse.Services
             AddOrUpdateValue(prefs, "waitlisted", isWaitlisted);
         }
 
+        public static void clear()
+        {
+            ApplicationData.Current.LocalSettings.DeleteContainer("session");
+            load();
+        }
+
         public static bool isLoggedIn()
         {
             return userToken != null;

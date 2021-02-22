@@ -17,7 +17,7 @@
 // 	This code contains a helper class exposing property representations
 // 	of the string resources defined in the specified .ResW file
 // 
-// 	Generated: 02/22/2021 15:42:26
+// 	Generated: 02/22/2021 20:23:24
 // </auto-generatedInfo>
 // --------------------------------------------------------------------------------------------------
 namespace Clubhouse.Strings
@@ -46,6 +46,50 @@ namespace Clubhouse.Strings
             set
             {
                 resourceLoader = value;
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Start a room"
+        /// </summary>
+        public static string CreateChannel
+        {
+            get
+            {
+                return Resource.GetString("CreateChannel");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Follow"
+        /// </summary>
+        public static string Follow
+        {
+            get
+            {
+                return Resource.GetString("Follow");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "followers"
+        /// </summary>
+        public static string Followers
+        {
+            get
+            {
+                return Resource.GetString("Followers");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "following"
+        /// </summary>
+        public static string Following
+        {
+            get
+            {
+                return Resource.GetString("Following");
             }
         }
         
@@ -116,6 +160,62 @@ namespace Clubhouse.Strings
         }
         
         /// <summary>
+        /// Localized resource similar to "Unfollow"
+        /// </summary>
+        public static string Unfollow
+        {
+            get
+            {
+                return Resource.GetString("Unfollow");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Followed by **{0}**"
+        /// </summary>
+        public static string UserFollowedBy
+        {
+            get
+            {
+                return Resource.GetString("UserFollowedBy");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Followed by **{0}** and **{1}**"
+        /// </summary>
+        public static string UserFollowedByAnd
+        {
+            get
+            {
+                return Resource.GetString("UserFollowedByAnd");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Follows you"
+        /// </summary>
+        public static string UserFollowsYou
+        {
+            get
+            {
+                return Resource.GetString("UserFollowsYou");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Joined {0}
+        ///Nominated by **{1}**"
+        /// </summary>
+        public static string UserInvitedBy
+        {
+            get
+            {
+                return Resource.GetString("UserInvitedBy");
+            }
+        }
+        
+        /// <summary>
         /// Localized resource similar to "Online"
         /// </summary>
         public static string UserLastActiveOnline
@@ -123,6 +223,17 @@ namespace Clubhouse.Strings
             get
             {
                 return Resource.GetString("UserLastActiveOnline");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Member of"
+        /// </summary>
+        public static string UserMemberOf
+        {
+            get
+            {
+                return Resource.GetString("UserMemberOf");
             }
         }
         

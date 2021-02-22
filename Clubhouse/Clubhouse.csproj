@@ -133,6 +133,7 @@
     <Compile Include="Common\KeyedList.cs" />
     <Compile Include="Common\LoopThread.cs" />
     <Compile Include="Common\LoopThreadPool.cs" />
+    <Compile Include="Common\Markdown.cs" />
     <Compile Include="Common\PhoneNumber.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\XamlResourceLoader.cs" />
@@ -150,6 +151,9 @@
     <Compile Include="Controls\PhoneTextBox.cs" />
     <Compile Include="Controls\ProfilePicture.cs" />
     <Compile Include="Controls\Superellipse.cs" />
+    <Compile Include="Controls\UserFollowedByView.xaml.cs">
+      <DependentUpon>UserFollowedByView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Logs\ILogListener.cs" />
     <Compile Include="Logs\Log.cs" />
     <Compile Include="Logs\Logger.cs" />
@@ -167,7 +171,12 @@
     </Compile>
     <Compile Include="ViewModels\Delegates\IListViewDelegate.cs" />
     <Compile Include="ViewModels\Delegates\IViewModelDelegate.cs" />
+    <Compile Include="ViewModels\FollowListViewModel.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Views\FollowListPage.xaml.cs">
+      <DependentUpon>FollowListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -204,6 +213,9 @@
     </Compile>
     <Compile Include="Views\RoomPage.xaml.cs">
       <DependentUpon>RoomPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserPage.xaml.cs">
+      <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -323,6 +335,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\UserFollowedByView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Common.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -330,6 +346,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FollowListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -344,6 +364,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RoomPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

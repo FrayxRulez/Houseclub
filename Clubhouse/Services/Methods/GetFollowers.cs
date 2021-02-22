@@ -1,24 +1,30 @@
 using Clubhouse.Models;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace Clubhouse.Services.Methods
 {
     public class GetFollowers : ClubhouseAPIRequest<GetFollowers.Response>
     {
-        public GetFollowers(int userID, int pageSize, int page)
+        public GetFollowers(ulong userID, int pageSize, int page)
             : base(HttpMethod.Get, "get_followers")
         {
-            queryParams = new Dictionary<string, string>();
-            queryParams.Add("user_id", userID + "");
-            queryParams.Add("page_size", pageSize + "");
-            queryParams.Add("page", page + "");
+            queryParams = new Dictionary<string, string>
+            {
+                { "user_id", $"{userID}" },
+                { "page_size", $"{pageSize}" },
+                { "page", $"{page}" }
+            };
         }
 
         public class Response
         {
-            public List<FullUser> users { get; set; }
-            public int count { get; set; }
+            [JsonPropertyName("users")]
+            public List<FullUser> Users { get; set; }
+
+            [JsonPropertyName("count")]
+            public int Count { get; set; }
         }
     }
 }

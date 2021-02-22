@@ -33,6 +33,14 @@
             {
                 return (T)(object)new Clubhouse.ViewModels.RoomViewModel(_dataService, _voiceService);
             }
+            else if (type == typeof(Clubhouse.ViewModels.UserViewModel))
+            {
+                return (T)(object)new Clubhouse.ViewModels.UserViewModel(_dataService);
+            }
+            else if (type == typeof(Clubhouse.ViewModels.FollowListViewModel))
+            {
+                return (T)(object)new Clubhouse.ViewModels.FollowListViewModel(_dataService);
+            }
 
             return default;
         }

@@ -50,7 +50,7 @@
         
         <SplitView x:Name="Split" DisplayMode="Inline" PanePlacement="Right" IsPaneOpen="True" Grid.Row="1">
             <SplitView.Pane>
-                <ListView ItemsSource="{x:Bind ViewModel.OnlineUsers}">
+                <ListView ItemsSource="{x:Bind ViewModel.OnlineUsers}" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:OnlineUser">
                             <Grid Padding="0,6">
@@ -69,8 +69,8 @@
                                     
                                     <controls:ProfilePicture
                                         Source="{x:Bind}"
-                                        Width="48"
-                                        Height="48"/>
+                                        Width="36"
+                                        Height="36"/>
 
                                     <Border
                                         Background="{ThemeResource OnlineBackgroundBrush}"
@@ -108,42 +108,54 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </SplitView.Pane>
-            
-            <ListView ItemsSource="{x:Bind ViewModel.Channels}" IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick" Grid.Column="1">
-                <ListView.Header>
-                    <Border MaxWidth="500">
-                        <Grid Background="{ThemeResource EventsBackgroundBrush}" CornerRadius="12" Padding="12,0,12,8" Margin="12,12,12,0">
-                            <ItemsControl ItemsSource="{x:Bind ViewModel.Events}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="models:Event">
-                                        <cells:EventCalendarCell
-                                            Event="{x:Bind}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
-                    </Border>
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Channel">
-                        <cells:ChannelCell
-                            Channel="{x:Bind}"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        <Setter Property="Padding" Value="0"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsStackPanel
-                            MaxWidth="500"/>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
+            <Grid>
+                <ListView ItemsSource="{x:Bind ViewModel.Channels}" IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick" Grid.Column="1">
+                    <ListView.Header>
+                        <Border MaxWidth="500">
+                            <Grid Background="{ThemeResource EventsBackgroundBrush}" CornerRadius="12" Padding="12,0,12,8" Margin="12,12,12,0">
+                                <ItemsControl ItemsSource="{x:Bind ViewModel.Events}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="models:Event">
+                                            <cells:EventCalendarCell
+                                                Event="{x:Bind}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </Border>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Channel">
+                            <cells:ChannelCell
+                                Channel="{x:Bind}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Padding" Value="0"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel
+                                MaxWidth="500"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
 
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#00f2efe4"/>
+                            <GradientStop Color="#fff2efe4" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+
+                    <Button
+                        Content="{CustomResource CreateChannel}"/>
+                </Grid>
+            </Grid>
         </SplitView>
     </Grid>
 </Page>

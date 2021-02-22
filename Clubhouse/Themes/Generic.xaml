@@ -12,6 +12,7 @@
     <Style TargetType="local:PhoneTextBox" BasedOn="{StaticResource DefaultTextBoxStyle}" />
 
     <Style TargetType="local:ProfilePicture">
+        <Setter Property="IsEnabled" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ProfilePicture">

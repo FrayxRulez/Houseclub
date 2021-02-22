@@ -1,6 +1,5 @@
 ﻿using Clubhouse.Models;
 using System.Collections.Generic;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -60,16 +59,6 @@ namespace Clubhouse.Controls.Cells
                 var textBlock = new TextBlock();
                 textBlock.Text = user.Name + " \U0001F4AC";
                 textBlock.Margin = new Thickness(0, 0, 0, 4);
-
-                // This isn't the proper rule.
-                if (value.ClubName == null && value.CreatorUserProfileId == user.Id)
-                {
-                    textBlock.FontWeight = FontWeights.SemiBold;
-                }
-                else
-                {
-                    textBlock.FontWeight = FontWeights.Normal;
-                }
 
                 Users.Children.Add(textBlock);
             }

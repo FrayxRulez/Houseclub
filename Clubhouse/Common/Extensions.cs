@@ -1,5 +1,6 @@
 ﻿using Clubhouse.Navigation;
 using Clubhouse.Navigation.Services;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using Windows.ApplicationModel;
@@ -19,6 +20,20 @@ namespace Clubhouse.Common
             }
 
             return string.Format("{0}.{1} ({2}) {3}", version.Major, version.Minor, version.Build, packageId.Architecture);
+        }
+
+        public static bool TryGet<T>(this IDictionary<string, object> dict, string key, out T value)
+        {
+            bool success;
+            if (success = dict.TryGetValue(key, out object tryGetValue))
+            {
+                value = (T)tryGetValue;
+            }
+            else
+            {
+                value = default;
+            }
+            return success;
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using Clubhouse.Models;
 using Clubhouse.Navigation;
 using Clubhouse.ViewModels;
+using Clubhouse.Views;
 using Windows.UI.Xaml.Controls;
 
 namespace Clubhouse
@@ -36,7 +37,14 @@ namespace Clubhouse
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewModel.JoinChannel(e.ClickedItem as Channel);
+            if (e.ClickedItem is Channel channel)
+            {
+                ViewModel.JoinChannel(channel);
+            }
+            else if (e.ClickedItem is OnlineUser onlineUser)
+            {
+                ViewModel.NavigationService.Navigate(typeof(UserPage), onlineUser);
+            }
         }
     }
 }

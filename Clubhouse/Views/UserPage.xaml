@@ -1,0 +1,130 @@
+﻿<Page
+    x:Class="Clubhouse.Views.UserPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Clubhouse.Views"
+    xmlns:common="using:Clubhouse.Common"
+    xmlns:controls="using:Clubhouse.Controls"
+    xmlns:models="using:Clubhouse.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="1">
+            <Border MaxWidth="500">
+                <StackPanel Margin="12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <controls:ProfilePicture
+                            Source="{x:Bind ViewModel.User, Mode=OneWay}"
+                            Width="72"
+                            Height="72"/>
+                    </Grid>
+
+                    <TextBlock
+                        Text="{x:Bind ViewModel.User.Name, Mode=OneWay}"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Margin="0,0,0,8"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Text="{x:Bind ConvertUsername(ViewModel.User), Mode=OneWay}"/>
+
+                        <TextBlock
+                            Text="{CustomResource UserFollowsYou}"
+                            Foreground="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}"
+                            Visibility="{x:Bind ViewModel.FullUser.FollowsMe, Mode=OneWay}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12">
+                        <HyperlinkButton
+                            Click="Followers_Click"
+                            Foreground="{ThemeResource ButtonForeground}">
+                            <TextBlock>
+                                <Run Text="{x:Bind ViewModel.FullUser.NumFollowers, Mode=OneWay}" FontSize="16" FontWeight="SemiBold"/>
+                                <Run Text="{CustomResource Followers}"/>
+                            </TextBlock>
+                        </HyperlinkButton>
+                        
+                        <HyperlinkButton
+                            Click="Following_Click"
+                            Foreground="{ThemeResource ButtonForeground}">
+                            <TextBlock>
+                                <Run Text="{x:Bind ViewModel.FullUser.NumFollowing, Mode=OneWay}" FontSize="16" FontWeight="SemiBold"/>
+                                <Run Text="{CustomResource Following}"/>
+                            </TextBlock>
+                        </HyperlinkButton>
+                    </StackPanel>
+
+                    <TextBlock
+                        Text="{x:Bind ViewModel.FullUser.Bio, Mode=OneWay}"
+                        Style="{StaticResource BodyTextBlockStyle}"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12">
+                        <TextBlock
+                            Text="{x:Bind ViewModel.FullUser.Twitter, Mode=OneWay}"/>
+                        <TextBlock
+                            Text="{x:Bind ViewModel.FullUser.Instagram, Mode=OneWay}"/>
+                    </StackPanel>
+
+                    <controls:UserFollowedByView
+                        FullUser="{x:Bind ViewModel.FullUser, Mode=OneWay}"/>
+
+                    <HyperlinkButton
+                        Command="{x:Bind ViewModel.NavigateCommand}"
+                        CommandParameter="{x:Bind ViewModel.FullUser.InvitedByUserProfile, Mode=OneWay}"
+                        Visibility="{x:Bind common:Converters.NullToVisibility(ViewModel.FullUser.InvitedByUserProfile), Mode=OneWay}"
+                        Foreground="{ThemeResource ButtonForeground}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <controls:ProfilePicture
+                                Source="{x:Bind ViewModel.FullUser.InvitedByUserProfile, Mode=OneWay}"
+                                Width="36"
+                                Height="36"
+                                Margin="0,0,8,0"/>
+
+                            <TextBlock
+                                common:Markdown.Text="{x:Bind ConvertInvitedBy(ViewModel.FullUser), Mode=OneWay}"
+                                Grid.Column="1"/>
+                        </Grid>
+                    </HyperlinkButton>
+
+                    <TextBlock
+                        Text="{CustomResource UserMemberOf}"/>
+
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.FullUser.Clubs, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:Club">
+                                <controls:ProfilePicture
+                                    Source="{x:Bind}"
+                                    Width="36"
+                                    Height="36"
+                                    Margin="0,0,12,0"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel
+                                    Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -16,6 +16,8 @@ namespace Clubhouse.Controls
         private TextBlock InitialsPart;
         private Image ImagePart;
 
+        private object _source;
+
         public ProfilePicture()
         {
             DefaultStyleKey = typeof(ProfilePicture);
@@ -24,6 +26,7 @@ namespace Clubhouse.Controls
         protected override void OnApplyTemplate()
         {
             ImagePart = GetTemplateChild("ImagePart") as Image;
+            OnSourceChanged(Source, _source);
             base.OnApplyTemplate();
         }
 
@@ -85,39 +88,57 @@ namespace Clubhouse.Controls
 
         private void OnSourceChanged(object newValue, object oldValue)
         {
+            if (newValue == _source)
+            {
+                return;
+            }
+
+            Uri photoUrl = null;
+            String name = null;
+            
             if (newValue is User user)
             {
-                if (user.PhotoUrl != null)
-                {
-                    if (InitialsPart != null)
-                    {
-                        InitialsPart.Text = string.Empty;
-                    }
+                photoUrl = user.PhotoUrl;
+                name = user.Name;
+            }
+            else if (newValue is Club club)
+            {
+                photoUrl = club.PhotoUrl;
+                name = club.Name;
+            }
 
-                    if (ImagePart != null)
-                    {
-                        ImagePart.Source = new BitmapImage(user.PhotoUrl);
-                    }
+            if (photoUrl != null)
+            {
+                if (InitialsPart != null)
+                {
+                    InitialsPart.Text = string.Empty;
                 }
-                else
+
+                if (ImagePart != null)
                 {
-                    if (InitialsPart == null)
-                    {
-                        InitialsPart = GetTemplateChild("InitialsPart") as TextBlock;
-                    }
-
-                    if (InitialsPart != null)
-                    {
-                        InitialsPart.Text = Convert(user.Name);
-                    }
-
-                    if (ImagePart != null)
-                    {
-                        ImagePart.Source = null;
-                    }
+                    _source = newValue;
+                    ImagePart.Source = new BitmapImage(photoUrl);
                 }
             }
-            else if (newValue == null)
+            else if (name != null)
+            {
+                if (InitialsPart == null)
+                {
+                    InitialsPart = GetTemplateChild("InitialsPart") as TextBlock;
+                }
+
+                if (InitialsPart != null)
+                {
+                    _source = newValue;
+                    InitialsPart.Text = Convert(name);
+                }
+
+                if (ImagePart != null)
+                {
+                    ImagePart.Source = null;
+                }
+            }
+            else
             {
                 if (InitialsPart != null)
                 {
@@ -128,6 +149,8 @@ namespace Clubhouse.Controls
                 {
                     ImagePart.Source = null;
                 }
+
+                _source = null;
             }
         }
 

@@ -1,11 +1,12 @@
 using Clubhouse.Models;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace Clubhouse.Services.Methods
 {
     public class GetProfile : ClubhouseAPIRequest<GetProfile.Response>
     {
-        public GetProfile(int id)
+        public GetProfile(ulong id)
             : base(HttpMethod.Post, "get_profile")
         {
             requestBody = new Body(id);
@@ -13,17 +14,19 @@ namespace Clubhouse.Services.Methods
 
         private class Body
         {
-            public int userId { get; set; }
+            [JsonPropertyName("user_id")]
+            public ulong UserId { get; set; }
 
-            public Body(int userId)
+            public Body(ulong userId)
             {
-                this.userId = userId;
+                UserId = userId;
             }
         }
 
         public class Response
         {
-            public FullUser userProfile { get; set; }
+            [JsonPropertyName("user_profile")]
+            public FullUser UserProfile { get; set; }
         }
     }
 }

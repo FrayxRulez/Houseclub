@@ -1,0 +1,55 @@
+﻿<Page
+    x:Class="Clubhouse.Views.FollowListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Clubhouse.Views"
+    xmlns:common="using:Clubhouse.Common"
+    xmlns:controls="using:Clubhouse.Controls"
+    xmlns:models="using:Clubhouse.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ListView ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:FullUser">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <controls:ProfilePicture
+                            Source="{x:Bind}"
+                            Width="48"
+                            Height="48"/>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock>
+                                <Run Text="{x:Bind Name}" FontWeight="SemiBold"/>
+                                <Run Text="{x:Bind common:Converters.Username(Username)}" Foreground="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}"/>
+                            </TextBlock>
+                            <TextBlock
+                                Text="{x:Bind Bio}"
+                                TextWrapping="Wrap"
+                                TextTrimming="CharacterEllipsis"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                MaxLines="2"/>
+                        </StackPanel>
+
+                        <ToggleButton
+                            IsChecked="{x:Bind isFollowed()}"
+                            Content="{CustomResource Follow}"
+                            Grid.Column="2"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

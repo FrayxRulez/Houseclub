@@ -58,10 +58,11 @@ namespace Clubhouse.Controls.Cells
             foreach (var user in value.Users)
             {
                 var textBlock = new TextBlock();
-                textBlock.Text = user.Name;
+                textBlock.Text = user.Name + " \U0001F4AC";
+                textBlock.Margin = new Thickness(0, 0, 0, 4);
 
                 // This isn't the proper rule.
-                if (value.ClubName == null && value.CreatorUserProfileId == user.UserId)
+                if (value.ClubName == null && value.CreatorUserProfileId == user.Id)
                 {
                     textBlock.FontWeight = FontWeights.SemiBold;
                 }
@@ -82,13 +83,13 @@ namespace Clubhouse.Controls.Cells
             if (value.Count >= 2)
             {
                 Picture1.Margin = new Thickness(24, 24, 12, 0);
-                Picture1.Source = value[1].PhotoUrl;
-                Picture2.Source = value[0].PhotoUrl;
+                Picture1.Source = value[1];
+                Picture2.Source = value[0];
             }
             else if (value.Count >= 1)
             {
                 Picture1.Margin = new Thickness(24, 0, 12, 0);
-                Picture1.Source = value[0].PhotoUrl;
+                Picture1.Source = value[0];
                 Picture2.Source = null;
             }
         }

@@ -8,7 +8,7 @@
         public ViewModelLocator()
         {
             _dataService = new Clubhouse.Services.ClubhouseAPIController();
-            _voiceService = new Clubhouse.Services.VoiceService();
+            _voiceService = new Clubhouse.Services.VoiceService(_dataService);
         }
 
         private static ViewModelLocator _current;
@@ -35,6 +35,19 @@
             }
 
             return default;
+        }
+
+        public TService Resolve<TService, TDelegate>(TDelegate delegato)
+            where TService : Clubhouse.ViewModels.Delegates.IDelegable<TDelegate>
+            where TDelegate : Clubhouse.ViewModels.Delegates.IViewModelDelegate
+        {
+            var result = Resolve<TService>();
+            if (result != null)
+            {
+                result.Delegate = delegato;
+            }
+
+            return result;
         }
     }
 }

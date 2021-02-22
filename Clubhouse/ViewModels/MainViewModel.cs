@@ -2,6 +2,7 @@
 using Clubhouse.Navigation;
 using Clubhouse.Services;
 using Clubhouse.Services.Methods;
+using Clubhouse.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -51,6 +52,7 @@ namespace Clubhouse.ViewModels
             if (response != null)
             {
                 _voiceService.JoinChannel(response);
+                NavigationService.Navigate(typeof(RoomPage));
             }
         }
     }

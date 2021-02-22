@@ -6,7 +6,7 @@ namespace Clubhouse.Models
     public class User
     {
         [JsonPropertyName("user_id")]
-        public int UserId { get; set; }
+        public ulong Id { get; set; }
 
         [JsonPropertyName("name")]
         public string Name { get; set; }

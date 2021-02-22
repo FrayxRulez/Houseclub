@@ -24,6 +24,17 @@ namespace Clubhouse.Common
 
     public static class JsonExtensions
     {
+        public static bool TryGetNamedUInt64(this JsonElement element, string key, out ulong value)
+        {
+            if (element.TryGetProperty(key, out JsonElement property))
+            {
+                return property.TryGetUInt64(out value);
+            }
+
+            value = default;
+            return false;
+        }
+
         public static bool TryGetNamedString(this JsonElement element, string key, out string value)
         {
             if (element.TryGetProperty(key, out JsonElement property))
@@ -34,6 +45,16 @@ namespace Clubhouse.Common
 
             value = null;
             return false;
+        }
+
+        public static string GetNamedString(this JsonElement element, string key)
+        {
+            if (element.TryGetProperty(key, out JsonElement property))
+            {
+                return property.GetString();
+            }
+
+            return null;
         }
     }
 

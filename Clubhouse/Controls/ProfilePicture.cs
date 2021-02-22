@@ -1,27 +1,39 @@
-﻿using Microsoft.Graphics.Canvas.Geometry;
+﻿using Clubhouse.Models;
+using Microsoft.Graphics.Canvas.Geometry;
 using System;
+using System.Globalization;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Clubhouse.Controls
 {
     public class ProfilePicture : HyperlinkButton
     {
+        private TextBlock InitialsPart;
+        private Image ImagePart;
+
         public ProfilePicture()
         {
             DefaultStyleKey = typeof(ProfilePicture);
         }
 
+        protected override void OnApplyTemplate()
+        {
+            ImagePart = GetTemplateChild("ImagePart") as Image;
+            base.OnApplyTemplate();
+        }
+
         protected override Size ArrangeOverride(Size finalSize)
         {
-            UpdateClip(finalSize.Width, finalSize.Height);
+            UpdateShape(finalSize.Width, finalSize.Height);
             return base.ArrangeOverride(finalSize);
         }
 
-        private void UpdateClip(double width, double height, double eccentricity = 2.5)
+        private void UpdateShape(double width, double height, double eccentricity = 2.5)
         {
             double x = 0;
             double y = 0;
@@ -57,15 +69,97 @@ namespace Clubhouse.Controls
 
         #region Source
 
-        public Uri Source
+        public object Source
         {
-            get { return (Uri)GetValue(SourceProperty); }
+            get { return (object)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(Uri), typeof(ProfilePicture), new PropertyMetadata(null));
+            DependencyProperty.Register("Source", typeof(object), typeof(ProfilePicture), new PropertyMetadata(null, OnSourceChanged));
+
+        private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ProfilePicture)d).OnSourceChanged(e.NewValue, e.OldValue);
+        }
+
+        private void OnSourceChanged(object newValue, object oldValue)
+        {
+            if (newValue is User user)
+            {
+                if (user.PhotoUrl != null)
+                {
+                    if (InitialsPart != null)
+                    {
+                        InitialsPart.Text = string.Empty;
+                    }
+
+                    if (ImagePart != null)
+                    {
+                        ImagePart.Source = new BitmapImage(user.PhotoUrl);
+                    }
+                }
+                else
+                {
+                    if (InitialsPart == null)
+                    {
+                        InitialsPart = GetTemplateChild("InitialsPart") as TextBlock;
+                    }
+
+                    if (InitialsPart != null)
+                    {
+                        InitialsPart.Text = Convert(user.Name);
+                    }
+
+                    if (ImagePart != null)
+                    {
+                        ImagePart.Source = null;
+                    }
+                }
+            }
+            else if (newValue == null)
+            {
+                if (InitialsPart != null)
+                {
+                    InitialsPart.Text = string.Empty;
+                }
+
+                if (ImagePart != null)
+                {
+                    ImagePart.Source = null;
+                }
+            }
+        }
 
         #endregion
+
+        private static string Convert(string name)
+        {
+            var words = name.Split(new char[] { ' ' });
+            if (words.Length > 1)
+            {
+                return Convert(words[0], words[words.Length - 1]);
+            }
+            else if (words.Length > 0)
+            {
+                return Convert(words[0], string.Empty);
+            }
+
+            return string.Empty;
+        }
+
+        private static string Convert(string word1, string word2)
+        {
+            word1 = word1 ?? string.Empty;
+            word2 = word2 ?? string.Empty;
+
+            var si1 = StringInfo.GetTextElementEnumerator(word1);
+            var si2 = StringInfo.GetTextElementEnumerator(word2);
+
+            word1 = si1.MoveNext() ? si1.GetTextElement() : string.Empty;
+            word2 = si2.MoveNext() ? si2.GetTextElement() : string.Empty;
+
+            return string.Format("{0}{1}", word1, word2).Trim().ToUpperInvariant();
+        }
     }
 }

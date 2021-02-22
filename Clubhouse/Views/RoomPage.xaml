@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="Clubhouse.Views.RoomPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Clubhouse.Views"
+    xmlns:cells="using:Clubhouse.Controls.Cells"
+    xmlns:common="using:Clubhouse.Common"
+    xmlns:models="using:Clubhouse.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <CollectionViewSource
+            x:Name="UsersSource"
+            Source="{x:Bind ViewModel.Users}"
+            IsSourceGrouped="True"/>
+    </Page.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <GridView x:Name="List" ItemsSource="{x:Bind UsersSource.View}">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="models:ChannelUser">
+                    <cells:RoomUserCell
+                        User="{x:Bind}"/>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate x:DataType="common:RoomUsersCollection">
+                            <TextBlock Text="{x:Bind Key}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </GridView.GroupStyle>
+        </GridView>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Content="{CustomResource RoomLeaveChannel}"
+                Command="{x:Bind ViewModel.LeaveCommand}"/>
+
+        </Grid>
+    </Grid>
+</Page>

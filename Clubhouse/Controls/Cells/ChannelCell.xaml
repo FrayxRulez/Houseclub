@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid Background="#ffffff" CornerRadius="12" Padding="12,8" Margin="0,12,0,0">
+    <Grid Background="#ffffff" CornerRadius="12" Padding="12,8" Margin="12,12,12,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -47,10 +47,10 @@
 
                 <TextBlock Style="{StaticResource InfoCaptionTextBlockStyle}">
                     <Run x:Name="All"/>
-                    <Run Text="[]"/>
+                    <Run Text="&#xE901;" FontSize="16" FontFamily="{StaticResource ClubhouseThemeFontFamily}"/>
                     <Run Text="/"/>
                     <Run x:Name="Speakers"/>
-                    <Run Text="[]"/>
+                    <Run Text="&#xE900;" FontSize="16" FontFamily="{StaticResource ClubhouseThemeFontFamily}"/>
                 </TextBlock>
             </StackPanel>
         </Grid>

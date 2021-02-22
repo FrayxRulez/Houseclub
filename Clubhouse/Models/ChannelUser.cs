@@ -1,14 +1,29 @@
+using System.Text.Json.Serialization;
+
 namespace Clubhouse.Models
 {
     public class ChannelUser : User
     {
-        public bool isSpeaker { get; set; }
-        public bool isModerator { get; set; }
-        public bool isFollowedBySpeaker { get; set; }
-        public bool isInvitedAsSpeaker { get; set; }
-        public bool isNew { get; set; }
-        public string timeJoinedAsSpeaker { get; set; }
-        public string firstName { get; set; }
+        [JsonPropertyName("is_speaker")]
+        public bool IsSpeaker { get; set; }
+
+        [JsonPropertyName("is_moderator")]
+        public bool IsModerator { get; set; }
+
+        [JsonPropertyName("is_followed_by_speaker")]
+        public bool IsFollowedBySpeaker { get; set; }
+
+        [JsonPropertyName("is_invited_as_speaker")]
+        public bool IsInvitedAsSpeaker { get; set; }
+
+        [JsonPropertyName("is_new")]
+        public bool IsNew { get; set; }
+
+        [JsonPropertyName("time_joined_as_speaker")]
+        public string TimeJoinedAsSpeaker { get; set; }
+
+        [JsonPropertyName("first_name")]
+        public string FirstName { get; set; }
 
         public bool isMuted { get; set; }
 

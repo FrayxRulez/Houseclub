@@ -62,10 +62,10 @@ namespace Clubhouse.Models
 		* */
 
         [JsonPropertyName("creator_user_profile_id")]
-        public int CreatorUserProfileId { get; set; }
+        public ulong CreatorUserProfileId { get; set; }
 
         [JsonPropertyName("channel_id")]
-        public int ChannelId { get; set; }
+        public int Id { get; set; }
 
         [JsonPropertyName("channel")]
         public String channel { get; set; }

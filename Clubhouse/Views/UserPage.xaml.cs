@@ -1,7 +1,10 @@
 ﻿using Clubhouse.Models;
 using Clubhouse.Navigation;
+using Clubhouse.Services;
 using Clubhouse.ViewModels;
+using System;
 using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Clubhouse.Views
@@ -17,6 +20,11 @@ namespace Clubhouse.Views
         }
 
         #region Binding
+
+        private Visibility ConvertSelf(User user)
+        {
+            return user.Id == ClubhouseSession.userID ? Visibility.Visible : Visibility.Collapsed;
+        }
 
         private string ConvertUsername(User user)
         {
@@ -43,6 +51,23 @@ namespace Clubhouse.Views
         private void Following_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ViewModel.NavigationService.Navigate(typeof(FollowListPage), new ValueSet { { "user_id", ViewModel.User.Id }, { "followers", false } });
+        }
+
+        private async void Settings_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var dialog = new ContentDialog();
+            dialog.Title = "Wanna logout?";
+            dialog.Content = "You super shur?";
+            dialog.PrimaryButtonText = "OK";
+            dialog.SecondaryButtonText = "Cancel";
+
+            var confirm = await dialog.ShowAsync();
+            if (confirm == ContentDialogResult.Primary)
+            {
+                ClubhouseSession.clear();
+                ViewModel.NavigationService.Navigate(typeof(BlankPage));
+                ViewModel.NavigationService.Master.Navigate(typeof(LoginPage));
+            }
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Clubhouse
             }
             else if (e.ClickedItem is OnlineUser onlineUser)
             {
-                ViewModel.NavigationService.Navigate(typeof(UserPage), onlineUser);
+                ViewModel.NavigationService.Popup.Navigate(typeof(UserPage), onlineUser);
             }
         }
     }

@@ -54,10 +54,14 @@ namespace Clubhouse
 
         public override UIElement CreateRootElement(IActivatedEventArgs e)
         {
-            var navigationFrame = new Frame();
-            var navigationService = NavigationServiceFactory(BackButton.Ignore, ExistingContent.Include, navigationFrame, 0, $"0", true) as NavigationService;
+            var navigationRoot = new RootPage();
+            var navigationService = NavigationServiceFactory(BackButton.Ignore, ExistingContent.Include, navigationRoot.Frame, 0, $"0", true) as NavigationService;
+            var popupService = NavigationServiceFactory(BackButton.Attach, ExistingContent.Exclude, navigationRoot.Popup, 0, $"1", true) as NavigationService;
 
-            return navigationFrame;
+            navigationService.Popup = popupService;
+            popupService.Master = navigationService;
+
+            return navigationRoot;
         }
 
         public override UIElement CreateRootElement(INavigationService navigationService)

@@ -137,6 +137,7 @@
     <Compile Include="Common\PhoneNumber.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\XamlResourceLoader.cs" />
+    <Compile Include="Controls\BackButton.cs" />
     <Compile Include="Controls\Cells\ChannelCell.xaml.cs">
       <DependentUpon>ChannelCell.xaml</DependentUpon>
     </Compile>
@@ -174,6 +175,9 @@
     <Compile Include="ViewModels\FollowListViewModel.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Views\BlankPage.xaml.cs">
+      <DependentUpon>BlankPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FollowListPage.xaml.cs">
       <DependentUpon>FollowListPage.xaml</DependentUpon>
     </Compile>
@@ -213,6 +217,9 @@
     </Compile>
     <Compile Include="Views\RoomPage.xaml.cs">
       <DependentUpon>RoomPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RootPage.xaml.cs">
+      <DependentUpon>RootPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
@@ -347,6 +354,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\BlankPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FollowListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -364,6 +375,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RoomPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RootPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -29,6 +29,8 @@ namespace Clubhouse.ViewModels
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
+            await LoadSelfAsync();
+
             var response = await DataService.SendAsync(new GetChannels());
             if (response != null)
             {
@@ -47,6 +49,15 @@ namespace Clubhouse.ViewModels
             }
 
             await LoadOnlineFriendsAsync();
+        }
+
+        private async Task LoadSelfAsync()
+        {
+            var response = await DataService.SendAsync(new GetProfile(ClubhouseSession.userID));
+            if (response != null)
+            {
+                Self = response.UserProfile;
+            }
         }
 
         private async Task LoadOnlineFriendsAsync()
@@ -69,6 +80,13 @@ namespace Clubhouse.ViewModels
 
         public ObservableCollection<OnlineUser> OnlineUsers { get; private set; }
 
+        private User _self;
+        public User Self
+        {
+            get => _self;
+            set => Set(ref _self, value);
+        }
+
         public async void JoinChannel(Channel channel)
         {
             var response = await DataService.SendAsync(new JoinChannel(channel.channel));
@@ -82,8 +100,7 @@ namespace Clubhouse.ViewModels
         public RelayCommand LogoutCommand { get; }
         private void LogoutExecute()
         {
-            ClubhouseSession.clear();
-            NavigationService.Navigate(typeof(LoginPage));
+            NavigationService.Popup.Navigate(typeof(UserPage), _self);
         }
     }
 }

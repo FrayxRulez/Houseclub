@@ -41,6 +41,9 @@ namespace Clubhouse.Navigation.Services
 
         IDispatcherContext Dispatcher { get; }
 
+        INavigationService Popup { get; }
+        INavigationService Master { get; }
+
         Task SaveAsync();
 
         Task<bool> LoadAsync();
@@ -76,6 +79,9 @@ namespace Clubhouse.Navigation.Services
 
         public IDispatcherContext Dispatcher => this.GetDispatcherWrapper();
 
+        public INavigationService Popup { get; set; }
+        public INavigationService Master { get; set; }
+
 
         public string NavigationState
         {
@@ -90,6 +96,9 @@ namespace Clubhouse.Navigation.Services
 
         public NavigationService(Frame frame, int session, string id)
         {
+            Popup = this;
+            Master = this;
+
             IsInMainView = CoreApplication.MainView == CoreApplication.GetCurrentView();
             SessionId = session;
             FrameFacade = new FrameFacade(this, frame, id);

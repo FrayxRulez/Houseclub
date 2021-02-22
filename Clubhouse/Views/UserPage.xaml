@@ -16,6 +16,19 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <controls:BackButton/>
+            <controls:GlyphButton
+                Visibility="{x:Bind ConvertSelf(ViewModel.User), Mode=OneWay}"
+                Click="Settings_Click"
+                Glyph="&#xE906;"
+                Grid.Column="2"/>
+        </Grid>
 
         <ScrollViewer Grid.Row="1">
             <Border MaxWidth="500">

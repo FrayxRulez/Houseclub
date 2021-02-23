@@ -11,7 +11,7 @@ namespace Clubhouse.ViewModels
 {
     public class LoginCompleteViewModel : ViewModelBase
     {
-        public LoginCompleteViewModel(ClubhouseAPIController dataService)
+        public LoginCompleteViewModel(IDataService dataService)
             : base(dataService)
         {
             SendCommand = new RelayCommand(SendExecute);
@@ -42,6 +42,7 @@ namespace Clubhouse.ViewModels
             var response = await DataService.SendAsync(new CompletePhoneNumberAuth(_phoneNumber, _verificationCode));
             if (response != null)
             {
+                ClubhouseSession.refreshToken = response.RefreshToken;
                 ClubhouseSession.userToken = response.AuthToken;
                 ClubhouseSession.userID = response.UserProfile.Id;
                 ClubhouseSession.isWaitlisted = response.IsWaitlisted;

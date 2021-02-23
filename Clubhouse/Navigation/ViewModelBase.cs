@@ -8,14 +8,14 @@ namespace Clubhouse.Navigation
 {
     public abstract class ViewModelBase : BindableBase, INavigable
     {
-        private readonly ClubhouseAPIController _dataService;
+        private readonly IDataService _dataService;
 
-        public ViewModelBase(ClubhouseAPIController dataService)
+        public ViewModelBase(IDataService dataService)
         {
             _dataService = dataService;
         }
 
-        public ClubhouseAPIController DataService => _dataService;
+        public IDataService DataService => _dataService;
 
         public virtual Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {

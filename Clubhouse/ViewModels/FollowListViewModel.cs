@@ -15,7 +15,7 @@ namespace Clubhouse.ViewModels
 {
     public class FollowListViewModel : ViewModelBase
     {
-        public FollowListViewModel(ClubhouseAPIController dataService)
+        public FollowListViewModel(IDataService dataService)
             : base(dataService)
         {
         }

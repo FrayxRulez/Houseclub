@@ -33,7 +33,7 @@ namespace Clubhouse.Services
 
     public class VoiceService : SubscribeCallback, IVoiceService
     {
-        private readonly ClubhouseAPIController _dataService;
+        private readonly IDataService _dataService;
         protected readonly AgoraRtc _engine;
         private Pubnub _pubnub;
 
@@ -42,7 +42,7 @@ namespace Clubhouse.Services
 
         protected readonly List<IVoiceDelegate> _listeners = new List<IVoiceDelegate>();
 
-        public VoiceService(ClubhouseAPIController dataService)
+        public VoiceService(IDataService dataService)
         {
             _dataService = dataService;
 

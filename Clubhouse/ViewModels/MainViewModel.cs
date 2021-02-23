@@ -15,7 +15,7 @@ namespace Clubhouse.ViewModels
     {
         private readonly IVoiceService _voiceService;
 
-        public MainViewModel(ClubhouseAPIController dataService, IVoiceService voiceService)
+        public MainViewModel(IDataService dataService, IVoiceService voiceService)
             : base(dataService)
         {
             _voiceService = voiceService;
@@ -100,7 +100,13 @@ namespace Clubhouse.ViewModels
         public RelayCommand LogoutCommand { get; }
         private void LogoutExecute()
         {
-            NavigationService.Popup.Navigate(typeof(UserPage), _self);
+            var self = _self;
+            if (self == null)
+            {
+                return;
+            }
+
+            NavigationService.Popup.Navigate(typeof(UserPage), self);
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class ViewModelLocator
     {
-        private readonly Clubhouse.Services.ClubhouseAPIController _dataService;
+        private readonly Clubhouse.Services.IDataService _dataService;
         private readonly Clubhouse.Services.IVoiceService _voiceService;
 
         public ViewModelLocator()

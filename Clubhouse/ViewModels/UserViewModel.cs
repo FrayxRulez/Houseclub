@@ -12,7 +12,7 @@ namespace Clubhouse.ViewModels
 {
     public class UserViewModel : ViewModelBase
     {
-        public UserViewModel(ClubhouseAPIController dataService)
+        public UserViewModel(IDataService dataService)
             : base(dataService)
         {
             NavigateCommand = new RelayCommand<object>(NavigateExecute);

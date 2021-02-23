@@ -23,7 +23,7 @@ namespace Clubhouse.ViewModels
 
         public IListViewDelegate Delegate { get; set; }
 
-        public RoomViewModel(ClubhouseAPIController dataService, IVoiceService voiceService)
+        public RoomViewModel(IDataService dataService, IVoiceService voiceService)
             : base(dataService)
         {
             _voiceService = voiceService;

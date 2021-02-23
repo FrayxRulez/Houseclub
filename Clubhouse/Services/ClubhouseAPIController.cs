@@ -7,44 +7,48 @@ using System.Threading.Tasks;
 
 namespace Clubhouse.Services
 {
-    public class ClubhouseAPIController
+    public interface IDataService
     {
-        private static readonly ClubhouseAPIController instance;
-        private const String TAG = "ClubhouseAPI";
+        void Send<T>(ClubhouseAPIRequest<T> request);
+        Task<T> SendAsync<T>(ClubhouseAPIRequest<T> request);
+    }
+
+    public class ClubhouseAPIController : IDataService
+    {
+        private const string TAG = "ClubhouseAPI";
         private const bool DEBUG = false;
 
-        private const String API_URL = "https://www.clubhouseapi.com/api";
-        //	private static final Uri API_URL=Uri.parse("http://192.168.0.51:8080/");
-        private const String API_BUILD_ID = "304";
-        private const String API_BUILD_VERSION = "0.1.28";
-        private const String API_UA = "clubhouse/" + API_BUILD_ID + " (iPhone; iOS 13.5.1; Scale/3.00)";
+        private const string API_URL = "https://www.clubhouseapi.com/api";
+        private const string API_BUILD_ID = "304";
+        private const string API_BUILD_VERSION = "0.1.28";
+        private const string API_UA = "clubhouse/" + API_BUILD_ID + " (iPhone; iOS 13.5.1; Scale/3.00)";
 
-        public const String PUBNUB_PUB_KEY = "pub-c-6878d382-5ae6-4494-9099-f930f938868b";
-        public const String PUBNUB_SUB_KEY = "sub-c-a4abea84-9ca3-11ea-8e71-f2b83ac9263d";
+        public const string PUBNUB_PUB_KEY = "pub-c-6878d382-5ae6-4494-9099-f930f938868b";
+        public const string PUBNUB_SUB_KEY = "sub-c-a4abea84-9ca3-11ea-8e71-f2b83ac9263d";
 
-        public const String TWITTER_ID = "NyJhARWVYU1X3qJZtC2154xSI";
-        public const String TWITTER_SECRET = "ylFImLBFaOE362uwr4jut8S8gXGWh93S1TUKbkfh7jDIPse02o";
+        public const string TWITTER_ID = "NyJhARWVYU1X3qJZtC2154xSI";
+        public const string TWITTER_SECRET = "ylFImLBFaOE362uwr4jut8S8gXGWh93S1TUKbkfh7jDIPse02o";
 
-        public const String AGORA_KEY = "938de3e8055e42b281bb8c6f69c21f78";
-        public const String SENTRY_KEY = "5374a416cd2d4009a781b49d1bd9ef44@o325556.ingest.sentry.io/5245095";
-        public const String INSTABUG_KEY = "4e53155da9b00728caa5249f2e35d6b3";
-        public const String AMPLITUDE_KEY = "9098a21a950e7cb0933fb5b30affe5be";
+        public const string AGORA_KEY = "938de3e8055e42b281bb8c6f69c21f78";
+        public const string SENTRY_KEY = "5374a416cd2d4009a781b49d1bd9ef44@o325556.ingest.sentry.io/5245095";
+        public const string INSTABUG_KEY = "4e53155da9b00728caa5249f2e35d6b3";
+        public const string AMPLITUDE_KEY = "9098a21a950e7cb0933fb5b30affe5be";
 
         //private WorkerThread apiThread;
         //private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-        private readonly HttpClient httpClient = new HttpClient();
+        private readonly HttpClient _client = new HttpClient();
 
         public ClubhouseAPIController()
         {
             //httpClient.DefaultRequestHeaders.Add("CH-Languages", locales.toLanguageTags());
             //httpClient.DefaultRequestHeaders.Add("CH-Locale", locales.get(0).toLanguageTag().replace('-', '_'));
-            httpClient.DefaultRequestHeaders.Add("CH-Languages", "en_US");
-            httpClient.DefaultRequestHeaders.Add("CH-Locale", "en_US");
-            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
-            httpClient.DefaultRequestHeaders.Add("CH-AppBuild", API_BUILD_ID);
-            httpClient.DefaultRequestHeaders.Add("CH-AppVersion", API_BUILD_VERSION);
-            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", API_UA);
-            httpClient.DefaultRequestHeaders.Add("CH-DeviceId", ClubhouseSession.deviceID);
+            _client.DefaultRequestHeaders.Add("CH-Languages", "en-US");
+            _client.DefaultRequestHeaders.Add("CH-Locale", "en_US");
+            _client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
+            _client.DefaultRequestHeaders.Add("CH-AppBuild", API_BUILD_ID);
+            _client.DefaultRequestHeaders.Add("CH-AppVersion", API_BUILD_VERSION);
+            _client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", API_UA);
+            _client.DefaultRequestHeaders.Add("CH-DeviceId", ClubhouseSession.deviceID);
 
         }
 
@@ -139,13 +143,13 @@ namespace Clubhouse.Services
                 //if (DEBUG)
                 //    Log.i(TAG, call.request().headers().toString());
                 //req.currentRequest = call;
-                var response = await httpClient.SendAsync(httpRequest);
+                var response = await _client.SendAsync(httpRequest);
                 var body = response.Content;
                 //if (DEBUG)
                 //    Log.i(TAG, "Code: " + resp.code());
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    String respStr = await body.ReadAsStringAsync();
+                    string respStr = await body.ReadAsStringAsync();
                     //if (DEBUG)
                     //    Log.i(TAG, "Raw response: " + respStr);
                     //						T robj=gson.fromJson(body.charStream(), req.responseClass);

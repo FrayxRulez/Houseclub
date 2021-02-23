@@ -39,6 +39,7 @@
                 Grid.Column="3"/>
 
             <controls:GlyphButton
+                Click="Notifications_Click"
                 Glyph="&#xE902;"
                 Grid.Column="4"/>
 
@@ -116,7 +117,7 @@
             <Grid>
                 <ListView ItemsSource="{x:Bind ViewModel.Channels}" IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick" Grid.Column="1">
                     <ListView.Header>
-                        <Border MaxWidth="500">
+                        <Border MaxWidth="500" Visibility="{x:Bind common:Converters.NullToVisibility(ViewModel.Events.Count), Mode=OneWay}">
                             <Grid Background="{ThemeResource EventsBackgroundBrush}" CornerRadius="12" Padding="12,0,12,8" Margin="12,12,12,0">
                                 <ItemsControl ItemsSource="{x:Bind ViewModel.Events}">
                                     <ItemsControl.ItemTemplate>

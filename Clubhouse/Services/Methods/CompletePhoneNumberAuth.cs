@@ -10,6 +10,7 @@ namespace Clubhouse.Services.Methods
         public CompletePhoneNumberAuth(string phoneNumber, string code)
             : base(HttpMethod.Post, "complete_phone_number_auth")
         {
+            RequiresInitialization = false;
             Content = new Body(phoneNumber, code);
         }
 

@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="Clubhouse.Views.NotificationsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Clubhouse.Views"
+    xmlns:common="using:Clubhouse.Common"
+    xmlns:controls="using:Clubhouse.Controls"
+    xmlns:models="using:Clubhouse.Models"
+    xmlns:selectors="using:Clubhouse.Selectors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <ListView
+            ItemsSource="{x:Bind ViewModel.Items}"
+            ItemClick="ListView_ItemClick"
+            IsItemClickEnabled="True"
+            SelectionMode="None">
+            <ListView.ItemTemplateSelector>
+                <selectors:NotificationTemplateSelector>
+                    <selectors:NotificationTemplateSelector.NotificationTemplate>
+                        <DataTemplate x:DataType="models:Notification">
+                            <Grid Opacity="{x:Bind common:Converters.UnreadOpacity(IsUnread)}" Padding="0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <controls:ProfilePicture
+                                    Source="{x:Bind UserProfile}"
+                                    VerticalAlignment="Top"
+                                    Width="36"
+                                    Height="36"
+                                    Margin="0,0,8,0"/>
+
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Grid.Column="1">
+                                    <Run Text="{x:Bind UserProfile.Name}" FontWeight="SemiBold"/>
+                                    <Run Text="{x:Bind Message}"/>
+                                </TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </selectors:NotificationTemplateSelector.NotificationTemplate>
+                </selectors:NotificationTemplateSelector>
+            </ListView.ItemTemplateSelector>
+        </ListView>
+    </Grid>
+</Page>

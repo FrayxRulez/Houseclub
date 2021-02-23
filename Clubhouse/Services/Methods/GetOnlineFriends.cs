@@ -13,7 +13,7 @@ namespace Clubhouse.Services.Methods
 
         }
 
-        public class Response : BaseResponse
+        public class Response
         {
             [JsonPropertyName("clubs")]
             public List<Club> Clubs { get; set; }

@@ -41,6 +41,10 @@
             {
                 return (T)(object)new Clubhouse.ViewModels.FollowListViewModel(_dataService);
             }
+            else if (type == typeof(Clubhouse.ViewModels.NotificationsViewModel))
+            {
+                return (T)(object)new Clubhouse.ViewModels.NotificationsViewModel(_dataService, _voiceService);
+            }
 
             return default;
         }

@@ -12,7 +12,7 @@ namespace Clubhouse.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
-        public LoginViewModel(ClubhouseAPIController dataService)
+        public LoginViewModel(IDataService dataService)
             : base(dataService)
         {
             SelectedCountry = Countries.FirstOrDefault(x => x.Code == GlobalizationPreferences.HomeGeographicRegion);
@@ -51,7 +51,7 @@ namespace Clubhouse.ViewModels
             }
 
             var response = await DataService.SendAsync(new StartPhoneNumberAuth(phoneNumber));
-            if (response != null && response.success)
+            if (response.Success)
             {
                 NavigationService.Navigate(typeof(LoginCompletePage), phoneNumber);
             }

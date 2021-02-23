@@ -97,7 +97,7 @@ namespace Clubhouse.ViewModels
                             count++;
                         }
 
-                        _page = response.Next ?? 0;
+                        _page = response.Next ?? 1;
                         _hasMoreItems = response.Next.HasValue;
                     }
                     else

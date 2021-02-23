@@ -94,6 +94,7 @@ namespace Clubhouse.Services
 
         public Task InitializeAsync()
         {
+            Initialize();
             return _initializeTask.Task;
         }
 
@@ -135,11 +136,11 @@ namespace Clubhouse.Services
                 //Uri.Builder uri = API_URL.buildUpon().appendPath(req.path);
                 var url = $"{API_URL}/{request.Path}";
 
-                if (request.queryParams != null)
+                if (request.QueryParameters != null)
                 {
                     var index = 0;
 
-                    foreach (var entry in request.queryParams)
+                    foreach (var entry in request.QueryParameters)
                     {
                         if (index > 0)
                         {

@@ -9,6 +9,7 @@ namespace Clubhouse.Services.Methods
                 : base(HttpMethod.Post, "start_phone_number_auth")
 
         {
+            RequiresInitialization = false;
             Content = new Body(phoneNumber);
         }
 

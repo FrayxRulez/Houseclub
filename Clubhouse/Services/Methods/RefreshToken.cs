@@ -8,6 +8,7 @@ namespace Clubhouse.Services.Methods
         public RefreshToken(string token)
             : base(HttpMethod.Post, "refresh_token")
         {
+            RequiresInitialization = false;
             Content = new Body(token);
         }
 

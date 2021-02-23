@@ -8,7 +8,7 @@ namespace Clubhouse.Services
     {
         public string Path;
         public HttpMethod Method;
-        public Dictionary<string, string> queryParams;
+        public Dictionary<string, string> QueryParameters;
         public object Content;
         //public File fileToUpload;
         public Uri contentUriToUpload;

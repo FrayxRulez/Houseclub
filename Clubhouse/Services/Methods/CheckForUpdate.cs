@@ -8,8 +8,8 @@ namespace Clubhouse.Services.Methods
         public CheckForUpdate()
             : base(HttpMethod.Get, "check_for_upate")
         {
-            queryParams = new Dictionary<string, string>();
-            queryParams.Add("is_testflight", "0");
+            QueryParameters = new Dictionary<string, string>();
+            QueryParameters.Add("is_testflight", "0");
         }
     }
 }

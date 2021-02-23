@@ -5,14 +5,13 @@ using System.Text.Json.Serialization;
 
 namespace Clubhouse.Services.Methods
 {
-    public class GetFollowListBase : ClubhouseAPIRequest<GetFollowListBase.Response>
+    public class GetNotifications : ClubhouseAPIRequest<GetNotifications.Response>
     {
-        public GetFollowListBase(string path, ulong userID, int pageSize, int page)
-            : base(HttpMethod.Get, path)
+        public GetNotifications(int pageSize, int page)
+            : base(HttpMethod.Get, "get_notifications")
         {
             QueryParameters = new Dictionary<string, string>
             {
-                { "user_id", $"{userID}" },
                 { "page_size", $"{pageSize}" },
                 { "page", $"{page}" }
             };
@@ -20,20 +19,17 @@ namespace Clubhouse.Services.Methods
 
         public class Response : BaseResponse
         {
-            [JsonPropertyName("clubs")]
-            public List<Club> Clubs { get; set; }
-
-            [JsonPropertyName("users")]
-            public List<FullUser> Users { get; set; }
+            [JsonPropertyName("notifications")]
+            public List<Notification> Notifications { get; set; }
 
             [JsonPropertyName("count")]
             public int Count { get; set; }
 
-            [JsonPropertyName("previous")]
-            public int? Previous { get; set; }
-
             [JsonPropertyName("next")]
             public int? Next { get; set; }
+
+            [JsonPropertyName("previous")]
+            public int? Previous { get; set; }
         }
     }
 }

@@ -15,6 +15,10 @@ namespace Clubhouse.Common
             {
                 return list.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             }
+            else if (value is int count)
+            {
+                return count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
 
             return value != null ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -80,6 +84,11 @@ namespace Clubhouse.Common
         public static double LastActiveOpacity(int minutes)
         {
             return minutes > 0 ? 0.5 : 1;
+        }
+
+        public static double UnreadOpacity(bool unread)
+        {
+            return unread ? 1 : 0.5;
         }
     }
 }

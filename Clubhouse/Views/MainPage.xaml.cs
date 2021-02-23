@@ -46,5 +46,10 @@ namespace Clubhouse
                 ViewModel.NavigationService.Popup.Navigate(typeof(UserPage), onlineUser);
             }
         }
+
+        private void Notifications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            ViewModel.NavigationService.Popup.Navigate(typeof(NotificationsPage));
+        }
     }
 }

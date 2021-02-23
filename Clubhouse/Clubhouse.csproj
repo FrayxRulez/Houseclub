@@ -164,10 +164,15 @@
     <Compile Include="Logs\LogLevel.cs" />
     <Compile Include="Models\Club.cs" />
     <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\ActionableNotification.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\OnlineUser.cs" />
     <Compile Include="Selectors\FollowListTemplateSelector.cs" />
+    <Compile Include="Selectors\NotificationTemplateSelector.cs" />
+    <Compile Include="Services\Methods\GetActionableNotifications.cs" />
     <Compile Include="Services\Methods\GetFollowListBase.cs" />
     <Compile Include="Services\Methods\GetMutualFollows.cs" />
+    <Compile Include="Services\Methods\GetNotifications.cs" />
     <Compile Include="Services\Methods\GetOnlineFriends.cs" />
     <Compile Include="Services\Methods\Me.cs" />
     <Compile Include="Services\Methods\RefreshToken.cs" />
@@ -180,6 +185,7 @@
     <Compile Include="ViewModels\Delegates\IListViewDelegate.cs" />
     <Compile Include="ViewModels\Delegates\IViewModelDelegate.cs" />
     <Compile Include="ViewModels\FollowListViewModel.cs" />
+    <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Views\BlankPage.xaml.cs">
@@ -221,6 +227,9 @@
     </Compile>
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NotificationsPage.xaml.cs">
+      <DependentUpon>NotificationsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RoomPage.xaml.cs">
       <DependentUpon>RoomPage.xaml</DependentUpon>
@@ -378,6 +387,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NotificationsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

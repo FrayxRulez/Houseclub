@@ -32,7 +32,7 @@ namespace Clubhouse.ViewModels
             await LoadMeAsync();
 
             var response = await DataService.SendAsync(new GetChannels());
-            if (response != null)
+            if (response.Success)
             {
                 Channels.Clear();
                 Events.Clear();
@@ -54,7 +54,7 @@ namespace Clubhouse.ViewModels
         private async Task LoadMeAsync()
         {
             var response = await DataService.SendAsync(new Me(true, true));
-            if (response != null)
+            if (response.Success)
             {
                 HasUnreadNotifications = response.HasUnreadNotifications;
                 ActionableNotificationsCount = response.ActionableNotificationsCount;

@@ -23,6 +23,10 @@
                     <SolidColorBrush x:Key="OnlineBackgroundBrush" Color="#ffffff"/>
                     <SolidColorBrush x:Key="OnlineForegroundBrush" Color="#27ae60"/>
 
+                    <SolidColorBrush x:Key="NotificationsBadgeBorderBrush" Color="#ffffff"/>
+                    <SolidColorBrush x:Key="NotificationsBadgeBackgroundBrush" Color="#ff0000"/>
+                    <SolidColorBrush x:Key="NotificationsBadgeForegroundBrush" Color="#ffffff"/>
+
                     <SolidColorBrush x:Key="EventsBackgroundBrush" Color="#e7e3d5"/>
                     <SolidColorBrush x:Key="EventsTimeForegroundBrush" Color="#70664b"/>
                 </ResourceDictionary>

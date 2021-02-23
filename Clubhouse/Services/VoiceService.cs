@@ -7,6 +7,7 @@ using PubnubApi;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
 
 namespace Clubhouse.Services
 {
@@ -14,19 +15,29 @@ namespace Clubhouse.Services
     {
         Models.Channel Channel { get; }
 
+        bool IsSpeaker { get; }
+        bool IsHandRaised { get; }
+
+        bool IsMuted { get; set; }
+
         void AddListener(IVoiceDelegate listener);
         void RemoveListener(IVoiceDelegate listener);
 
         void JoinChannel(Models.Channel channel);
         void LeaveChannel();
+
+        void RejoinChannel();
     }
 
     public interface IVoiceDelegate
     {
+        void ChannelUpdated(Models.Channel channel);
+
         void UserJoined(Models.Channel channel, Models.ChannelUser user);
         void UserLeft(Models.Channel channel, ulong userId);
         void UserMuteChanged(Models.Channel channel, ulong userId, bool muted);
         void SpeakingUsersChanged(Models.Channel channel, ulong[] speakingUsers);
+        void SpeakingInviteReceived(Models.Channel channel, ulong userId, string userName);
 
         IDispatcherContext Dispatcher { get; }
     }
@@ -34,11 +45,18 @@ namespace Clubhouse.Services
     public class VoiceService : SubscribeCallback, IVoiceService
     {
         private readonly IDataService _dataService;
-        protected readonly AgoraRtc _engine;
+        private readonly AgoraRtc _engine;
+
+        private readonly Timer _pinger;
+
         private Pubnub _pubnub;
 
         private Models.Channel _channel;
-        private readonly bool _isSelfSpeaker = false;
+
+        private bool _isSelfSpeaker = false;
+        private bool _isSelfModerator = false;
+
+        private bool _isMuted = true;
 
         protected readonly List<IVoiceDelegate> _listeners = new List<IVoiceDelegate>();
 
@@ -51,9 +69,36 @@ namespace Clubhouse.Services
             //_engine.setDefaultAudioRoutetoSpeakerphone(true);
             _engine.EnableAudioVolumeIndication(500, 3, false);
             _engine.MuteLocalAudioStream(true);
+
+            _pinger = new Timer(OnPing);
+        }
+
+        private void OnPing(object state)
+        {
+            var channel = _channel?.channel;
+            if (channel == null)
+            {
+                _pinger.Change(Timeout.Infinite, Timeout.Infinite);
+                return;
+            }
+
+            _dataService.Send(new ActivePing(channel));
         }
 
         public Models.Channel Channel => _channel;
+
+        public bool IsSpeaker => _isSelfSpeaker;
+        public bool IsHandRaised => false;
+
+        public bool IsMuted
+        {
+            get => _isMuted;
+            set
+            {
+                _isMuted = value;
+                _engine.MuteLocalAudioStream(value);
+            }
+        }
 
         public void AddListener(IVoiceDelegate listener)
         {
@@ -72,8 +117,8 @@ namespace Clubhouse.Services
 
         public void JoinChannel(Models.Channel channel)
         {
-            _channel = channel;
-            doJoinChannel();
+            UpdateChannel(channel);
+            DoJoinChannel();
         }
 
         public void LeaveChannel()
@@ -92,22 +137,65 @@ namespace Clubhouse.Services
             //        .exec();
             //stopSelf();
             //uiHandler.removeCallbacks(pinger);
+            _pinger.Change(Timeout.Infinite, Timeout.Infinite);
             _pubnub.UnsubscribeAll<string>();
             _pubnub.Destroy();
         }
 
-        private void doJoinChannel()
+        public async void RejoinChannel()
+        {
+            var channel = _channel?.channel;
+            if (channel == null)
+            {
+                return;
+            }
+
+            _engine.LeaveChannel();
+            _pubnub.UnsubscribeAll<string>();
+
+            var leave = await _dataService.SendAsync(new LeaveChannel(channel));
+            if (leave.Success)
+            {
+                var response = await _dataService.SendAsync(new JoinChannel(channel));
+                if (response != null)
+                {
+                    UpdateChannel(response);
+                    DoJoinChannel();
+                }
+            }
+        }
+
+        private void UpdateChannel(Models.Channel channel)
+        {
+            _channel = channel;
+            _isSelfModerator = false;
+            _isSelfSpeaker = false;
+
+            foreach (var user in channel.Users)
+            {
+                if (user.Id == ClubhouseSession.userID)
+                {
+                    _isSelfModerator = user.IsModerator;
+                    _isSelfSpeaker = user.IsSpeaker;
+                    break;
+                }
+            }
+        }
+
+        private void DoJoinChannel()
         {
             _engine.SetChannelProfile(_isSelfSpeaker ? CHANNEL_PROFILE_TYPE.CHANNEL_PROFILE_COMMUNICATION : CHANNEL_PROFILE_TYPE.CHANNEL_PROFILE_LIVE_BROADCASTING);
             _engine.JoinChannel(_channel.Token, _channel.channel, "", ClubhouseSession.userID);
-            //uiHandler.postDelayed(pinger, 30000);
-            //for (ChannelEventListener l:listeners)
-            //	l.onChannelUpdated(channel);
+            _pinger.Change(30000, 30000);
+
+            foreach (var l in _listeners)
+            {
+                l.Dispatcher.Dispatch(() => l.ChannelUpdated(_channel));
+            }
 
             PNConfiguration pnConf = new PNConfiguration();
             pnConf.SubscribeKey = ClubhouseAPIController.PUBNUB_SUB_KEY;
             pnConf.PublishKey = ClubhouseAPIController.PUBNUB_PUB_KEY;
-            //pnConf.setUuid(UUID.randomUUID().toString());
             pnConf.AuthKey = _channel.PubnubToken;
             pnConf.Origin = "clubhouse.pubnub.com";
             pnConf.Uuid = $"{ClubhouseSession.userID}";
@@ -147,12 +235,20 @@ namespace Clubhouse.Services
                     switch (action)
                     {
                         case "invite_speaker":
+                            OnInviteSpeaker(msg.RootElement);
+                            break;
+                        case "uninvite_speaker":
+                            OnUninviteSpeaker(msg.RootElement);
+                            break;
+                        case "make_moderator":
                             break;
                         case "join_channel":
                             OnJoinChannel(msg.RootElement);
                             break;
                         case "leave_channel":
                             OnLeaveChannel(msg.RootElement);
+                            break;
+                        case "change_handraise_settings":
                             break;
                     }
                 }
@@ -161,7 +257,19 @@ namespace Clubhouse.Services
 
         private void OnInviteSpeaker(JsonElement element)
         {
+            if (element.TryGetNamedUInt64("from_user_id", out ulong userId)
+                && element.TryGetNamedString("from_name", out string userName))
+            {
+                foreach (var l in _listeners)
+                {
+                    l.Dispatcher.Dispatch(() => l.SpeakingInviteReceived(_channel, userId, userName));
+                }
+            }
+        }
 
+        private void OnUninviteSpeaker(JsonElement element)
+        {
+            RejoinChannel();
         }
 
         private void OnJoinChannel(JsonElement element)

@@ -31,6 +31,7 @@
                 Glyph="&#xE905;"/>
 
             <controls:GlyphButton
+                Click="Invites_Click"
                 Glyph="&#xE904;"
                 Grid.Column="2"/>
 
@@ -42,6 +43,55 @@
                 Click="Notifications_Click"
                 Glyph="&#xE902;"
                 Grid.Column="4"/>
+
+            <Border
+                x:Name="NotificationsBadge"
+                x:Load="{x:Bind ViewModel.HasUnreadNotifications, Mode=OneWay}"
+                Background="{ThemeResource NotificationsBadgeBorderBrush}"
+                UseLayoutRounding="False"
+                IsHitTestVisible="False"
+                Width="16"
+                Height="16"
+                CornerRadius="8"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,8,8,0"
+                Grid.Column="4">
+                <Border
+                    Background="{ThemeResource NotificationsBadgeBackgroundBrush}"
+                    Width="12"
+                    Height="12"
+                    CornerRadius="6"/>
+            </Border>
+
+            <Border
+                x:Name="ActionableNotificationsBadge"
+                x:Load="{x:Bind common:Converters.Boolean(ViewModel.ActionableNotificationsCount), Mode=OneWay}"
+                Background="{ThemeResource NotificationsBadgeBorderBrush}"
+                UseLayoutRounding="False"
+                IsHitTestVisible="False"
+                Width="20"
+                Height="20"
+                CornerRadius="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,4,4,0"
+                Grid.Column="4">
+                <Border
+                    Background="{ThemeResource NotificationsBadgeBackgroundBrush}"
+                    Width="16"
+                    Height="16"
+                    CornerRadius="8">
+                    <TextBlock
+                        Text="{x:Bind ViewModel.ActionableNotificationsCount, Mode=OneWay}"
+                        FontSize="12"
+                        FontWeight="SemiBold"
+                        Foreground="{ThemeResource NotificationsBadgeForegroundBrush}"
+                        TextLineBounds="Tight"
+                        TextAlignment="Center"
+                        VerticalAlignment="Center"/>
+                </Border>
+            </Border>
 
             <controls:GlyphButton
                 Command="{x:Bind ViewModel.LogoutCommand}"

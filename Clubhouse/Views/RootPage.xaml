@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
+    <Grid x:Name="LayoutRoot" SizeChanged="LayoutRoot_SizeChanged">
         <Frame
             x:Name="RootFrame"/>
 

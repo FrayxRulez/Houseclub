@@ -3,9 +3,12 @@ using Clubhouse.Controls.Cells;
 using Clubhouse.Models;
 using Clubhouse.Navigation;
 using Clubhouse.Services;
+using Clubhouse.Services.Methods;
 using Clubhouse.ViewModels.Delegates;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Clubhouse.ViewModels
@@ -32,30 +35,12 @@ namespace Clubhouse.ViewModels
             _followedBySpeakers = new RoomUsersCollection(Strings.Resources.RoomFollowedByTheSpeakers);
             _otherUsers = new RoomUsersCollection(Strings.Resources.RoomOthersInTheRoom);
 
-            foreach (var user in _voiceService.Channel.Users)
-            {
-                if (user.isMuted && !_mutedUsers.Contains(user.Id))
-                {
-                    _mutedUsers.Add(user.Id);
-                }
+            ChannelUpdated(_voiceService.Channel);
 
-                if (user.IsSpeaker)
-                {
-                    _speakers.Add(user);
-                }
-                else if (user.IsFollowedBySpeaker)
-                {
-                    _followedBySpeakers.Add(user);
-                }
-                else
-                {
-                    _otherUsers.Add(user);
-                }
-            }
-
-            Channel = _voiceService.Channel;
             Users = new List<RoomUsersCollection> { _speakers, _followedBySpeakers, _otherUsers };
 
+            RaiseCommand = new RelayCommand(RaiseExecute);
+            SpeakCommand = new RelayCommand(SpeakExecute);
             LeaveCommand = new RelayCommand(LeaveExecute);
         }
 
@@ -78,13 +63,78 @@ namespace Clubhouse.ViewModels
             set => Set(ref _channel, value);
         }
 
+        private bool _canRaise;
+        public bool CanRaise
+        {
+            get => _canRaise;
+            set => Set(ref _canRaise, value);
+        }
+
+        private bool _canSpeak;
+        public bool CanSpeak
+        {
+            get => _canSpeak;
+            set => Set(ref _canSpeak, value);
+        }
+
         public List<RoomUsersCollection> Users { get; private set; }
+
+        public RelayCommand RaiseCommand { get; }
+        private async void RaiseExecute()
+        {
+            var channel = _channel;
+            if (channel == null)
+            {
+                return;
+            }
+
+            var response = await DataService.SendAsync(new AudienceReply(channel.channel, true));
+        }
+
+        public RelayCommand SpeakCommand { get; }
+        private void SpeakExecute()
+        {
+            _voiceService.IsMuted = !_voiceService.IsMuted;
+        }
 
         public RelayCommand LeaveCommand { get; }
         private void LeaveExecute()
         {
             _voiceService.LeaveChannel();
             NavigationService.GoBack();
+        }
+
+        public void ChannelUpdated(Channel channel)
+        {
+            Channel = channel;
+
+            _speakers.Clear();
+            _followedBySpeakers.Clear();
+            _otherUsers.Clear();
+
+            foreach (var user in channel.Users)
+            {
+                if (user.isMuted && !_mutedUsers.Contains(user.Id))
+                {
+                    _mutedUsers.Add(user.Id);
+                }
+
+                if (user.IsSpeaker)
+                {
+                    _speakers.Add(user);
+                }
+                else if (user.IsFollowedBySpeaker)
+                {
+                    _followedBySpeakers.Add(user);
+                }
+                else
+                {
+                    _otherUsers.Add(user);
+                }
+            }
+
+            CanRaise = channel.IsHandraiseEnabled;
+            CanSpeak = _voiceService.IsSpeaker;
         }
 
         public void UserJoined(Channel channel, ChannelUser user)
@@ -179,6 +229,27 @@ namespace Clubhouse.ViewModels
                 {
                     content.IsSpeaking = _speakingUsers.Contains(user.Id);
                 }
+            }
+        }
+
+        public async void SpeakingInviteReceived(Channel channel, ulong userId, string userName)
+        {
+            var dialog = new ContentDialog();
+            dialog.Title = Strings.Resources.RoomJoinAsSpeakerTitle;
+            dialog.Content = string.Format(Strings.Resources.RoomJoinAsSpeakerMessage, userName);
+            dialog.PrimaryButtonText = Strings.Resources.Join;
+            dialog.SecondaryButtonText = Strings.Resources.Cancel;
+
+            var confirm = await dialog.ShowAsync();
+            if (confirm != ContentDialogResult.Primary)
+            {
+                return;
+            }
+
+            var response = await DataService.SendAsync(new AcceptSpeakerInvite(channel.channel, userId));
+            if (response.Success)
+            {
+                _voiceService.RejoinChannel();
             }
         }
     }

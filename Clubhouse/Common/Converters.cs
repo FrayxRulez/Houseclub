@@ -28,6 +28,11 @@ namespace Clubhouse.Common
             return value ? Visibility.Collapsed : Visibility.Visible;
         }
 
+        public static bool Boolean(int value)
+        {
+            return value > 0;
+        }
+
         public static string ShortNumber(int number)
         {
             var K = string.Empty;

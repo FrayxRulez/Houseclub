@@ -5,6 +5,7 @@
     xmlns:local="using:Clubhouse.Views"
     xmlns:cells="using:Clubhouse.Controls.Cells"
     xmlns:common="using:Clubhouse.Common"
+    xmlns:controls="using:Clubhouse.Controls"
     xmlns:models="using:Clubhouse.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -51,6 +52,24 @@
             <Button
                 Content="{CustomResource RoomLeaveChannel}"
                 Command="{x:Bind ViewModel.LeaveCommand}"/>
+
+            <controls:GlyphButton
+                Glyph="&#xE908;"
+                Grid.Column="2"/>
+
+            <controls:GlyphButton
+                Command="{x:Bind ViewModel.RaiseCommand}"
+                Visibility="{x:Bind common:Converters.Negation(ViewModel.CanSpeak), Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.CanRaise, Mode=OneWay}"
+                Glyph="&#xE909;"
+                Grid.Column="3"/>
+
+            <controls:GlyphButton
+                Command="{x:Bind ViewModel.SpeakCommand}"
+                Visibility="{x:Bind ViewModel.CanSpeak, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.CanRaise, Mode=OneWay}"
+                Glyph="&#xE90A;"
+                Grid.Column="3"/>
 
         </Grid>
     </Grid>

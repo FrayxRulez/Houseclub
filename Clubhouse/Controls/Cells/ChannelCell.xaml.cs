@@ -74,12 +74,14 @@ namespace Clubhouse.Controls.Cells
                 Picture1.Margin = new Thickness(24, 24, 12, 0);
                 Picture1.Source = value[1];
                 Picture2.Source = value[0];
+                Picture2.Visibility = Visibility.Visible;
             }
             else if (value.Count >= 1)
             {
                 Picture1.Margin = new Thickness(24, 0, 12, 0);
                 Picture1.Source = value[0];
                 Picture2.Source = null;
+                Picture2.Visibility = Visibility.Collapsed;
             }
         }
     }

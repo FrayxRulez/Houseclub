@@ -10,6 +10,7 @@ namespace Clubhouse.Services
         public static string deviceID;
         public static ulong userID;
         public static string userToken;
+        public static string refreshToken;
         public static bool isWaitlisted;
         public static User self;
 
@@ -19,7 +20,9 @@ namespace Clubhouse.Services
             deviceID = GetValueOrDefault<string>(prefs, "device_id", null);
             userID = GetValueOrDefault<ulong>(prefs, "user_id", 0);
             userToken = GetValueOrDefault<string>(prefs, "user_token", null);
+            refreshToken = GetValueOrDefault<string>(prefs, "refresh_token", null);
             isWaitlisted = GetValueOrDefault(prefs, "waitlisted", false);
+
             if (deviceID == null)
             {
                 deviceID = Guid.NewGuid().ToString().ToUpperInvariant();
@@ -33,6 +36,7 @@ namespace Clubhouse.Services
             AddOrUpdateValue(prefs, "device_id", deviceID);
             AddOrUpdateValue(prefs, "user_id", userID);
             AddOrUpdateValue(prefs, "user_token", userToken);
+            AddOrUpdateValue(prefs, "refresh_token", refreshToken);
             AddOrUpdateValue(prefs, "waitlisted", isWaitlisted);
         }
 

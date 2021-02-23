@@ -163,6 +163,7 @@
     <Compile Include="Logs\LogHelper.cs" />
     <Compile Include="Logs\LogLevel.cs" />
     <Compile Include="Models\Club.cs" />
+    <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\ActionableNotification.cs" />
     <Compile Include="Models\Notification.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Services\Methods\GetMutualFollows.cs" />
     <Compile Include="Services\Methods\GetNotifications.cs" />
     <Compile Include="Services\Methods\GetOnlineFriends.cs" />
+    <Compile Include="Services\Methods\GetSuggestedInvites.cs" />
     <Compile Include="Services\Methods\Me.cs" />
     <Compile Include="Services\Methods\RefreshToken.cs" />
     <Compile Include="Services\VoiceService.cs" />
@@ -185,6 +187,7 @@
     <Compile Include="ViewModels\Delegates\IListViewDelegate.cs" />
     <Compile Include="ViewModels\Delegates\IViewModelDelegate.cs" />
     <Compile Include="ViewModels\FollowListViewModel.cs" />
+    <Compile Include="ViewModels\InvitesViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -193,6 +196,9 @@
     </Compile>
     <Compile Include="Views\FollowListPage.xaml.cs">
       <DependentUpon>FollowListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InvitesPage.xaml.cs">
+      <DependentUpon>InvitesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -375,6 +381,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FollowListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InvitesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,5 +41,10 @@ namespace Clubhouse.Views
 
         public Frame Frame => RootFrame;
         public Frame Popup => PopupFrame;
+
+        private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            PopupElement.Height = Math.Min(500, e.NewSize.Height);
+        }
     }
 }

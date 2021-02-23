@@ -7,7 +7,7 @@ namespace Clubhouse.Services.Methods
         public UpdateName(string name)
             : base(HttpMethod.Post, "update_name")
         {
-            requestBody = new Body(name);
+            Content = new Body(name);
         }
 
         private class Body

@@ -74,7 +74,7 @@ namespace Clubhouse.Controls
 
         public object Source
         {
-            get { return (object)GetValue(SourceProperty); }
+            get { return GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 

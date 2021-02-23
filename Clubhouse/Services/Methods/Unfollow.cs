@@ -1,22 +1,27 @@
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace Clubhouse.Services.Methods
 {
     public class Unfollow : ClubhouseAPIRequest<BaseResponse>
     {
-        public Unfollow(int userID)
+        public ulong UserId { get; }
+
+        public Unfollow(ulong userID)
             : base(HttpMethod.Post, "unfollow")
         {
-            requestBody = new Body(userID);
+            UserId = userID;
+            Content = new Body(userID);
         }
 
         private class Body
         {
-            public int userId { get; set; }
+            [JsonPropertyName("user_id")]
+            public ulong UserId { get; set; }
 
-            public Body(int userId)
+            public Body(ulong userId)
             {
-                this.userId = userId;
+                UserId = userId;
             }
         }
     }

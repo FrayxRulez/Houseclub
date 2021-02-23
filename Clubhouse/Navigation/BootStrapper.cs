@@ -545,7 +545,7 @@ namespace Clubhouse.Navigation
             {
                 if (nav.FrameFacade.Frame.Equals(frame))
                 {
-                    return nav as INavigationService;
+                    return nav;
                 }
             }
 
@@ -802,7 +802,7 @@ namespace Clubhouse.Navigation
             public async Task<bool> AutoRestoreAsync(ILaunchActivatedEventArgs e, INavigationService nav)
             {
                 var restored = false;
-                var launchedEvent = e as ILaunchActivatedEventArgs;
+                var launchedEvent = e;
                 if (DetermineStartCause(e) == AdditionalKinds.Primary || launchedEvent?.TileId == "")
                 {
                     restored = await nav.LoadAsync();

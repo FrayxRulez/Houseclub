@@ -1,16 +1,21 @@
+using System.Text.Json.Serialization;
+
 namespace Clubhouse.Services
 {
     public class BaseResponse
     {
-        public bool success { get; set; }
-        public string errorMessage { get; set; }
+        [JsonPropertyName("success")]
+        public bool Success { get; set; }
+
+        [JsonPropertyName("error_message")]
+        public string ErrorMessage { get; set; }
 
         public override string ToString()
         {
-            return "BaseResponse{" +
-                    "success=" + success +
-                    ", errorMessage='" + errorMessage + '\'' +
-                    '}';
+            return "BaseResponse {" +
+                    " success = " + Success +
+                    ", error_message = '" + ErrorMessage + "'" +
+                    " }";
         }
     }
 }

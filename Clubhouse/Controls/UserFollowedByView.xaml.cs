@@ -2,22 +2,16 @@
 using Clubhouse.Models;
 using System;
 using System.Linq;
-using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Clubhouse.Controls
 {
-    public sealed partial class UserFollowedByView : UserControl
+    public sealed partial class UserFollowedByView : HyperlinkButton
     {
         public UserFollowedByView()
         {
             InitializeComponent();
-        }
-
-        public ICommand Command
-        {
-            set => Button.Command = value;
         }
 
         public FullUser FullUser

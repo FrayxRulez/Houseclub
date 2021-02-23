@@ -15,6 +15,7 @@ namespace Clubhouse.ViewModels
         public UserViewModel(IDataService dataService)
             : base(dataService)
         {
+            ToggleFollowCommand = new RelayCommand(ToggleFollowExecute);
             NavigateCommand = new RelayCommand<object>(NavigateExecute);
         }
 
@@ -23,6 +24,7 @@ namespace Clubhouse.ViewModels
             if (parameter is User user)
             {
                 User = user;
+                IsFollowing = DataService.FollowingIds.Contains(user.Id);
 
                 var response = await DataService.SendAsync(new GetProfile(user.Id));
                 if (response != null)
@@ -44,6 +46,36 @@ namespace Clubhouse.ViewModels
         {
             get => _fullUser;
             set => Set(ref _fullUser, value);
+        }
+
+        private bool? _isFollowing;
+        public bool? IsFollowing
+        {
+            get => _isFollowing;
+            set => Set(ref _isFollowing, value);
+        }
+
+        public RelayCommand ToggleFollowCommand { get; }
+        private async void ToggleFollowExecute()
+        {
+            var user = _user;
+            if (user == null)
+            {
+                return;
+            }
+
+            IsFollowing = null;
+
+            if (DataService.FollowingIds.Contains(user.Id))
+            {
+                await DataService.SendAsync(new Unfollow(user.Id));
+            }
+            else
+            {
+                await DataService.SendAsync(new Follow(user.Id));
+            }
+
+            IsFollowing = DataService.FollowingIds.Contains(user.Id);
         }
 
         public RelayCommand<object> NavigateCommand { get; }

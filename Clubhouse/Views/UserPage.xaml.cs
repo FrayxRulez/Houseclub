@@ -3,7 +3,7 @@ using Clubhouse.Navigation;
 using Clubhouse.Services;
 using Clubhouse.ViewModels;
 using System;
-using Windows.Foundation.Collections;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -21,8 +21,13 @@ namespace Clubhouse.Views
 
         #region Binding
 
-        private Visibility ConvertSelf(User user)
+        private Visibility ConvertSelf(User user, bool negate)
         {
+            if (negate)
+            {
+                return user.Id == ClubhouseSession.userID ? Visibility.Collapsed : Visibility.Visible;
+            }
+
             return user.Id == ClubhouseSession.userID ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -37,23 +42,32 @@ namespace Clubhouse.Views
             {
                 return string.Empty;
             }
+            else if (user.InvitedByUserProfile == null)
+            {
+                return string.Format(Strings.Resources.UserJoined, user.TimeCreated.ToShortDateString());
+            }
 
             return string.Format(Strings.Resources.UserInvitedBy, user.TimeCreated.ToShortDateString(), user.InvitedByUserProfile.Name);
         }
 
         #endregion
 
-        private void Followers_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Followers_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.NavigationService.Navigate(typeof(FollowListPage), new ValueSet { { "user_id", ViewModel.User.Id }, { "followers", true } });
+            ViewModel.NavigationService.Navigate(typeof(FollowListPage), new Dictionary<string, object> { { "user_id", ViewModel.User.Id }, { "type", FollowListType.Followers } });
         }
 
-        private void Following_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Following_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.NavigationService.Navigate(typeof(FollowListPage), new ValueSet { { "user_id", ViewModel.User.Id }, { "followers", false } });
+            ViewModel.NavigationService.Navigate(typeof(FollowListPage), new Dictionary<string, object> { { "user_id", ViewModel.User.Id }, { "type", FollowListType.Following } });
         }
 
-        private async void Settings_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void MutualFollows_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.NavigationService.Navigate(typeof(FollowListPage), new Dictionary<string, object> { { "user_id", ViewModel.User.Id }, { "type", FollowListType.MutualFollows } });
+        }
+
+        private async void Settings_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new ContentDialog();
             dialog.Title = "Wanna logout?";

@@ -1,4 +1,7 @@
+using Clubhouse.Models;
+using Clubhouse.Services.Methods;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -9,8 +12,15 @@ namespace Clubhouse.Services
 {
     public interface IDataService
     {
-        void Send<T>(ClubhouseAPIRequest<T> request);
-        Task<T> SendAsync<T>(ClubhouseAPIRequest<T> request);
+        User Me { get; }
+
+        ICollection<ulong> BlockedIds { get; }
+        ICollection<ulong> FollowingIds { get; }
+
+        Task InitializeAsync();
+
+        void Send<T>(ClubhouseAPIRequest<T> request) /*where T : BaseResponse*/ ;
+        Task<T> SendAsync<T>(ClubhouseAPIRequest<T> request) /*where T : BaseResponse*/ ;
     }
 
     public class ClubhouseAPIController : IDataService
@@ -34,15 +44,19 @@ namespace Clubhouse.Services
         public const string INSTABUG_KEY = "4e53155da9b00728caa5249f2e35d6b3";
         public const string AMPLITUDE_KEY = "9098a21a950e7cb0933fb5b30affe5be";
 
+        private readonly HashSet<ulong> _blockedIds = new HashSet<ulong>();
+        private readonly HashSet<ulong> _followingIds = new HashSet<ulong>();
+
         //private WorkerThread apiThread;
         //private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
         private readonly HttpClient _client = new HttpClient();
+        private readonly TaskCompletionSource<bool> _initializeTask = new TaskCompletionSource<bool>();
 
         public ClubhouseAPIController()
         {
             //httpClient.DefaultRequestHeaders.Add("CH-Languages", locales.toLanguageTags());
             //httpClient.DefaultRequestHeaders.Add("CH-Locale", locales.get(0).toLanguageTag().replace('-', '_'));
-            _client.DefaultRequestHeaders.Add("CH-Languages", "en-US");
+            _client.DefaultRequestHeaders.Add("CH-Languages", "en_US");
             _client.DefaultRequestHeaders.Add("CH-Locale", "en_US");
             _client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
             _client.DefaultRequestHeaders.Add("CH-AppBuild", API_BUILD_ID);
@@ -50,21 +64,76 @@ namespace Clubhouse.Services
             _client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", API_UA);
             _client.DefaultRequestHeaders.Add("CH-DeviceId", ClubhouseSession.deviceID);
 
+            Initialize();
         }
 
-        public async void Send<T>(ClubhouseAPIRequest<T> request)
+        public User Me { get; private set; }
+
+        public ICollection<ulong> BlockedIds => _blockedIds;
+        public ICollection<ulong> FollowingIds => _followingIds;
+
+        private async void Initialize()
+        {
+            if (ClubhouseSession.isLoggedIn())
+            {
+                var response = await SendAsync(new Me(true, true));
+                if (response.Success)
+                {
+                    Me = response.UserProfile;
+
+                    _blockedIds.Clear();
+                    _followingIds.Clear();
+
+                    _blockedIds.UnionWith(response.BlockedIds);
+                    _followingIds.UnionWith(response.FollowingIds);
+                }
+
+                _initializeTask.SetResult(true);
+            }
+        }
+
+        public Task InitializeAsync()
+        {
+            return _initializeTask.Task;
+        }
+
+        public async void Send<T>(ClubhouseAPIRequest<T> request) /*where T : BaseResponse*/
         {
             await SendAsync(request);
         }
 
-        public async Task<T> SendAsync<T>(ClubhouseAPIRequest<T> request)
+        public async Task<T> SendAsync<T>(ClubhouseAPIRequest<T> request) /*where T : BaseResponse*/
+        {
+            var response = await SendAsyncInternal<T>(request);
+
+            if (response is BaseResponse resp && resp.Success)
+            {
+                if (request is Follow follow)
+                {
+                    FollowingIds.Add(follow.UserId);
+                }
+                else if (request is Unfollow unfollow)
+                {
+                    FollowingIds.Remove(unfollow.UserId);
+                }
+            }
+
+            return response;
+        }
+
+        public async Task<T> SendAsyncInternal<T>(ClubhouseAPIRequest<T> request) /*where T : BaseResponse*/
         {
             try
             {
+                if (request.RequiresInitialization)
+                {
+                    await _initializeTask.Task;
+                }
+
                 //if (request.canceled)
                 //    return;
                 //Uri.Builder uri = API_URL.buildUpon().appendPath(req.path);
-                var url = $"{API_URL}/{request.path}";
+                var url = $"{API_URL}/{request.Path}";
 
                 if (request.queryParams != null)
                 {
@@ -88,10 +157,10 @@ namespace Clubhouse.Services
 
                 //req.prepare();
                 HttpContent reqBody = null;
-                if (request.requestBody != null)
+                if (request.Content != null)
                 {
                     //reqBody = RequestBody.create(MediaType.get("application/json; charset=utf-8"), gson.toJson(req.requestBody));
-                    reqBody = new StringContent(JsonSerializer.Serialize(request.requestBody), Encoding.UTF8, "application/json");
+                    reqBody = new StringContent(JsonSerializer.Serialize(request.Content), Encoding.UTF8, "application/json");
                 }
                 //else if (req.fileToUpload != null && req.fileFieldName != null)
                 //{
@@ -112,27 +181,8 @@ namespace Clubhouse.Services
                 //    Log.i(TAG, "Sending: " + req.method + " " + uri);
                 //Request.Builder bldr = new Request.Builder()
                 //        .url(uri.build().toString());
-                var httpRequest = new HttpRequestMessage(request.method, url);
+                var httpRequest = new HttpRequestMessage(request.Method, url);
                 httpRequest.Content = reqBody;
-
-                //if ("POST".equals(req.method) && reqBody == null)
-                //{
-                //    Field fld = bldr.getClass().getDeclaredField("method");
-                //    fld.setAccessible(true);
-                //    fld.set(bldr, req.method);
-                //}
-                //else
-                //{
-                //    bldr.method(req.method, reqBody);
-                //}
-                //LocaleList locales = App.applicationContext.getResources().getConfiguration().getLocales();
-                //bldr.header("CH-Languages", locales.toLanguageTags())
-                //        .header("CH-Locale", locales.get(0).toLanguageTag().replace('-', '_'))
-                //        .header("Accept", "application/json")
-                //        .header("CH-AppBuild", API_BUILD_ID)
-                //        .header("CH-AppVersion", API_BUILD_VERSION)
-                //        .header("User-Agent", API_UA)
-                //        .header("CH-DeviceId", ClubhouseSession.deviceID);
 
                 if (ClubhouseSession.isLoggedIn())
                 {
@@ -162,11 +212,18 @@ namespace Clubhouse.Services
                 }
                 else
                 {
+                    string respStr = await body.ReadAsStringAsync();
                     //                  String respStr = body.string();
                     //                  if (DEBUG)
                     //                      Log.i(TAG, "Raw response: " + respStr);
                     //                  BaseResponse br = gson.fromJson(respStr, BaseResponse.class);
                     //req.onError(new ClubhouseErrorResponse(br));
+                    T robj = JsonSerializer.Deserialize<T>(respStr); //req.parse(respStr);
+                                                                     //if (DEBUG)
+                                                                     //    Log.i(TAG, "Parsed response: " + robj);
+                                                                     //req.onSuccess(robj);
+
+                    return robj;
                 }
             }
 
@@ -175,9 +232,18 @@ namespace Clubhouse.Services
                 //Log.w(TAG, x);
                 //String msg = BuildConfig.DEBUG ? x.getLocalizedMessage() : null;
                 //req.onError(new ClubhouseErrorResponse(-1, msg));
-            }
+                T robj = Activator.CreateInstance<T>();
 
-            return default;
+                if (robj is BaseResponse resp)
+                {
+                    resp.Success = false;
+                    resp.ErrorMessage = "Internal error";
+
+                    return robj;
+                }
+
+                return default;
+            }
         }
     }
 }

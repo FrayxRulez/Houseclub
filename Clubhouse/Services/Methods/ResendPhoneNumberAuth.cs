@@ -7,7 +7,7 @@ namespace Clubhouse.Services.Methods
         public ResendPhoneNumberAuth(string phoneNumber)
             : base(HttpMethod.Post, "resend_phone_number_auth")
         {
-            requestBody = new Body(phoneNumber);
+            Content = new Body(phoneNumber);
         }
 
         private class Body

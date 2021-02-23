@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Collections;
+using Windows.UI.Xaml;
 
 namespace Clubhouse.Common
 {
@@ -6,7 +7,55 @@ namespace Clubhouse.Common
     {
         public static Visibility NullToVisibility(object value)
         {
+            if (value is string str)
+            {
+                return string.IsNullOrWhiteSpace(str) ? Visibility.Collapsed : Visibility.Visible;
+            }
+            else if (value is IList list)
+            {
+                return list.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+
             return value != null ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public static Visibility Negation(bool value)
+        {
+            return value ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public static string ShortNumber(int number)
+        {
+            var K = string.Empty;
+            var lastDec = 0;
+
+            while (number / 1000 > 0)
+            {
+                K += "K";
+                lastDec = (number % 1000) / 100;
+                number /= 1000;
+            }
+
+            if (lastDec != 0 && K.Length > 0)
+            {
+                if (K.Length == 2)
+                {
+                    return string.Format("{0}.{1}M", number, lastDec);
+                }
+                else
+                {
+                    return string.Format("{0}.{1}{2}", number, lastDec, K);
+                }
+            }
+
+            if (K.Length == 2)
+            {
+                return string.Format("{0}M", number);
+            }
+            else
+            {
+                return string.Format("{0}{1}", number, K);
+            }
         }
 
         public static string Username(string text)

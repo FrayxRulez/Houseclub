@@ -12,7 +12,7 @@ namespace Clubhouse.Services
 
         public ClubhouseErrorResponse(BaseResponse br)
         {
-            message = br.errorMessage;
+            message = br.ErrorMessage;
         }
 
         //@Override

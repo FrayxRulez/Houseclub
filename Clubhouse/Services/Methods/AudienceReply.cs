@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace Clubhouse.Services.Methods
 {
@@ -7,20 +8,25 @@ namespace Clubhouse.Services.Methods
         public AudienceReply(string channel, bool raise)
             : base(HttpMethod.Post, "audience_reply")
         {
-            requestBody = new Body(channel, raise, !raise);
+            Content = new Body(channel, raise, !raise);
         }
 
         private class Body
         {
-            public string channel { get; set; }
-            public bool raiseHands { get; set; }
-            public bool unraiseHands { get; set; }
+            [JsonPropertyName("channel")]
+            public string Channel { get; set; }
+
+            [JsonPropertyName("raise_hands")]
+            public bool RaiseHands { get; set; }
+
+            [JsonPropertyName("unraise_hands")]
+            public bool UnraiseHands { get; set; }
 
             public Body(string channel, bool raiseHands, bool unraiseHands)
             {
-                this.channel = channel;
-                this.raiseHands = raiseHands;
-                this.unraiseHands = unraiseHands;
+                Channel = channel;
+                RaiseHands = raiseHands;
+                UnraiseHands = unraiseHands;
             }
         }
     }

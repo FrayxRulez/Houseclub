@@ -7,7 +7,7 @@ namespace Clubhouse.Services.Methods
         public ActivePing(string channel)
             : base(HttpMethod.Post, "active_ping")
         {
-            requestBody = new Body(channel);
+            Content = new Body(channel);
         }
 
         private class Body

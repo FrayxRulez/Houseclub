@@ -8,7 +8,7 @@ namespace Clubhouse.Services.Methods
         public GetChannel(string name)
             : base(HttpMethod.Post, "get_channel")
         {
-            requestBody = new Body(name);
+            Content = new Body(name);
         }
 
         private class Body

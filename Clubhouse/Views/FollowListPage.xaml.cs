@@ -13,5 +13,10 @@ namespace Clubhouse.Views
             InitializeComponent();
             DataContext = ViewModelLocator.Current.Resolve<FollowListViewModel>();
         }
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.NavigationService.Navigate(typeof(UserPage), e.ClickedItem);
+        }
     }
 }

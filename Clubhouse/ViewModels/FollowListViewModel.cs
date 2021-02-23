@@ -1,5 +1,4 @@
 ﻿using Clubhouse.Common;
-using Clubhouse.Models;
 using Clubhouse.Navigation;
 using Clubhouse.Services;
 using Clubhouse.Services.Methods;
@@ -13,6 +12,13 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Clubhouse.ViewModels
 {
+    public enum FollowListType
+    {
+        Followers,
+        Following,
+        MutualFollows
+    }
+
     public class FollowListViewModel : ViewModelBase
     {
         public FollowListViewModel(IDataService dataService)
@@ -24,9 +30,9 @@ namespace Clubhouse.ViewModels
         {
             if (parameter is IDictionary<string, object> data)
             {
-                if (data.TryGet("user_id", out ulong userId) && data.TryGet("followers", out bool followers))
+                if (data.TryGet("user_id", out ulong userId) && data.TryGet("type", out FollowListType type))
                 {
-                    Items = new ItemCollection(this, userId, followers);
+                    Items = new ItemCollection(this, userId, type);
                 }
             }
 
@@ -40,21 +46,21 @@ namespace Clubhouse.ViewModels
             set => Set(ref _items, value);
         }
 
-        public class ItemCollection : ObservableCollection<FullUser>, ISupportIncrementalLoading
+        public class ItemCollection : ObservableCollection<object>, ISupportIncrementalLoading
         {
             private readonly FollowListViewModel _viewModel;
 
             private readonly ulong _userId;
-            private readonly bool _followers;
+            private readonly FollowListType _type;
 
             private int _page = 1;
             private bool _hasMoreItems = true;
 
-            public ItemCollection(FollowListViewModel viewModel, ulong userId, bool followers)
+            public ItemCollection(FollowListViewModel viewModel, ulong userId, FollowListType type)
             {
                 _viewModel = viewModel;
 
-                _followers = followers;
+                _type = type;
                 _userId = userId;
             }
 
@@ -64,45 +70,40 @@ namespace Clubhouse.ViewModels
                 {
                     var count = 0u;
 
-                    if (_followers)
+#pragma warning disable CS8524 // The switch expression does not handle some values of its input type (it is not exhaustive) involving an unnamed enum value.
+                    GetFollowListBase request = _type switch
+#pragma warning restore CS8524 // The switch expression does not handle some values of its input type (it is not exhaustive) involving an unnamed enum value.
                     {
-                        var response = await _viewModel.DataService.SendAsync(new GetFollowers(_userId, 20, _page));
-                        if (response != null)
+                        FollowListType.Followers => new GetFollowers(_userId, 20, _page),
+                        FollowListType.Following => new GetFollowing(_userId, 20, _page),
+                        FollowListType.MutualFollows => new GetMutualFollows(_userId, 20, _page)
+                    };
+
+                    var response = await _viewModel.DataService.SendAsync(request);
+                    if (response.Success)
+                    {
+                        if (response.Clubs != null)
                         {
-                            foreach (var item in response.Users)
+                            foreach (var item in response.Clubs)
                             {
                                 Add(item);
                                 count++;
                             }
+                        }
 
-                            _page++;
-                            _hasMoreItems = count > 0 && Count < response.Count;
-                        }
-                        else
+                        foreach (var item in response.Users)
                         {
-                            _hasMoreItems = false;
+                            Add(item);
+                            count++;
                         }
+
+                        _page = response.Next ?? 0;
+                        _hasMoreItems = response.Next.HasValue;
                     }
                     else
                     {
-                        var response = await _viewModel.DataService.SendAsync(new GetFollowing(_userId, 20, _page));
-                        if (response != null)
-                        {
-                            foreach (var item in response.Users)
-                            {
-                                Add(item);
-                                count++;
-                            }
-
-                            _page++;
-                            _hasMoreItems = count > 0 && Count < response.Count;
-                        }
-                        else
-                        {
-                            _hasMoreItems = false;
-                        }
+                        _hasMoreItems = false;
                     }
-
 
                     return new LoadMoreItemsResult { Count = count };
                 });

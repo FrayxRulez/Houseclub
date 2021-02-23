@@ -9,7 +9,7 @@ namespace Clubhouse.Services.Methods
         public GetProfile(ulong id)
             : base(HttpMethod.Post, "get_profile")
         {
-            requestBody = new Body(id);
+            Content = new Body(id);
         }
 
         private class Body
@@ -23,7 +23,7 @@ namespace Clubhouse.Services.Methods
             }
         }
 
-        public class Response
+        public class Response : BaseResponse
         {
             [JsonPropertyName("user_profile")]
             public FullUser UserProfile { get; set; }

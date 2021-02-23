@@ -117,23 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="CreateChannel" xml:space="preserve">
     <value>Start a room</value>
   </data>
   <data name="Follow" xml:space="preserve">
     <value>Follow</value>
   </data>
-  <data name="Followers" xml:space="preserve">
+  <data name="FollowersCount" xml:space="preserve">
     <value>followers</value>
   </data>
   <data name="Following" xml:space="preserve">
+    <value>Following</value>
+  </data>
+  <data name="FollowingCount" xml:space="preserve">
     <value>following</value>
+  </data>
+  <data name="Join" xml:space="preserve">
+    <value>Join</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="RoomFollowedByTheSpeakers" xml:space="preserve">
     <value>Followed by the speakers</value>
+  </data>
+  <data name="RoomJoinAsSpeakerMessage" xml:space="preserve">
+    <value>Do you want to accept the invite from {0}?</value>
+  </data>
+  <data name="RoomJoinAsSpeakerTitle" xml:space="preserve">
+    <value>Join as speaker</value>
   </data>
   <data name="RoomLeaveChannel" xml:space="preserve">
     <value>✌️ Leave quietly</value>
@@ -162,6 +180,9 @@
   <data name="UserInvitedBy" xml:space="preserve">
     <value>Joined {0}
 Nominated by **{1}**</value>
+  </data>
+  <data name="UserJoined" xml:space="preserve">
+    <value>Joined {0}</value>
   </data>
   <data name="UserLastActiveOnline" xml:space="preserve">
     <value>Online</value>

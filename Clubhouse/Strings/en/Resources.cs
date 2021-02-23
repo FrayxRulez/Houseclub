@@ -17,7 +17,7 @@
 // 	This code contains a helper class exposing property representations
 // 	of the string resources defined in the specified .ResW file
 // 
-// 	Generated: 02/22/2021 20:23:24
+// 	Generated: 02/23/2021 14:07:21
 // </auto-generatedInfo>
 // --------------------------------------------------------------------------------------------------
 namespace Clubhouse.Strings
@@ -50,6 +50,17 @@ namespace Clubhouse.Strings
         }
         
         /// <summary>
+        /// Localized resource similar to "Cancel"
+        /// </summary>
+        public static string Cancel
+        {
+            get
+            {
+                return Resource.GetString("Cancel");
+            }
+        }
+        
+        /// <summary>
         /// Localized resource similar to "Start a room"
         /// </summary>
         public static string CreateChannel
@@ -74,22 +85,44 @@ namespace Clubhouse.Strings
         /// <summary>
         /// Localized resource similar to "followers"
         /// </summary>
-        public static string Followers
+        public static string FollowersCount
         {
             get
             {
-                return Resource.GetString("Followers");
+                return Resource.GetString("FollowersCount");
             }
         }
         
         /// <summary>
-        /// Localized resource similar to "following"
+        /// Localized resource similar to "Following"
         /// </summary>
         public static string Following
         {
             get
             {
                 return Resource.GetString("Following");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "following"
+        /// </summary>
+        public static string FollowingCount
+        {
+            get
+            {
+                return Resource.GetString("FollowingCount");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Join"
+        /// </summary>
+        public static string Join
+        {
+            get
+            {
+                return Resource.GetString("Join");
             }
         }
         
@@ -105,6 +138,17 @@ namespace Clubhouse.Strings
         }
         
         /// <summary>
+        /// Localized resource similar to "OK"
+        /// </summary>
+        public static string OK
+        {
+            get
+            {
+                return Resource.GetString("OK");
+            }
+        }
+        
+        /// <summary>
         /// Localized resource similar to "Followed by the speakers"
         /// </summary>
         public static string RoomFollowedByTheSpeakers
@@ -112,6 +156,28 @@ namespace Clubhouse.Strings
             get
             {
                 return Resource.GetString("RoomFollowedByTheSpeakers");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Do you want to accept the invite from {0}?"
+        /// </summary>
+        public static string RoomJoinAsSpeakerMessage
+        {
+            get
+            {
+                return Resource.GetString("RoomJoinAsSpeakerMessage");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Join as speaker"
+        /// </summary>
+        public static string RoomJoinAsSpeakerTitle
+        {
+            get
+            {
+                return Resource.GetString("RoomJoinAsSpeakerTitle");
             }
         }
         
@@ -212,6 +278,17 @@ namespace Clubhouse.Strings
             get
             {
                 return Resource.GetString("UserInvitedBy");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "Joined {0}"
+        /// </summary>
+        public static string UserJoined
+        {
+            get
+            {
+                return Resource.GetString("UserJoined");
             }
         }
         

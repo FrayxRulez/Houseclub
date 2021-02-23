@@ -8,7 +8,7 @@ namespace Clubhouse.Services.Methods
         public JoinChannel(string channelName)
             : base(HttpMethod.Post, "join_channel")
         {
-            requestBody = new Body(channelName, "feed", "eyJpc19leHBsb3JlIjpmYWxzZSwicmFuayI6MX0=");
+            Content = new Body(channelName, "feed", "eyJpc19leHBsb3JlIjpmYWxzZSwicmFuayI6MX0=");
         }
 
         private class Body

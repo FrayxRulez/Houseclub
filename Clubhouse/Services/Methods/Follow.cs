@@ -1,23 +1,30 @@
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace Clubhouse.Services.Methods
 {
     public class Follow : ClubhouseAPIRequest<BaseResponse>
     {
-        public Follow(int userID)
+        public ulong UserId { get; }
+
+        public Follow(ulong userID)
             : base(HttpMethod.Post, "follow")
         {
-            requestBody = new Body(userID);
+            UserId = userID;
+            Content = new Body(userID);
         }
 
         private class Body
         {
-            public int userId { get; set; }
-            public int source { get; set; } = 4;
+            [JsonPropertyName("user_id")]
+            public ulong UserId { get; set; }
 
-            public Body(int userId)
+            [JsonPropertyName("source")]
+            public int Source { get; set; } = 4;
+
+            public Body(ulong userId)
             {
-                this.userId = userId;
+                UserId = userId;
             }
         }
     }

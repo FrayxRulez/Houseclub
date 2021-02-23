@@ -6,6 +6,7 @@
     xmlns:common="using:Clubhouse.Common"
     xmlns:controls="using:Clubhouse.Controls"
     xmlns:models="using:Clubhouse.Models"
+    xmlns:selectors="using:Clubhouse.Selectors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -16,40 +17,70 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ListView ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Grid.Row="1">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:FullUser">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <controls:ProfilePicture
-                            Source="{x:Bind}"
-                            Width="48"
-                            Height="48"/>
+        <ListView
+            ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+            ItemClick="ListView_ItemClick"
+            IsItemClickEnabled="True"
+            SelectionMode="None"
+            Grid.Row="1">
+            <ListView.ItemTemplateSelector>
+                <selectors:FollowListTemplateSelector>
+                    <selectors:FollowListTemplateSelector.ClubTemplate>
+                        <DataTemplate x:DataType="models:Club">
+                            <Grid Padding="0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:ProfilePicture
+                                    Source="{x:Bind}"
+                                    Width="48"
+                                    Height="48"/>
+                                
+                                <TextBlock
+                                    Text="{x:Bind Name}"
+                                    Style="{StaticResource BaseTextBlockStyle}"
+                                    VerticalAlignment="Center"
+                                    Grid.Column="1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </selectors:FollowListTemplateSelector.ClubTemplate>
+                    <selectors:FollowListTemplateSelector.UserTemplate>
+                        <DataTemplate x:DataType="models:FullUser">
+                            <Grid Padding="0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:ProfilePicture
+                                    Source="{x:Bind}"
+                                    Width="48"
+                                    Height="48"/>
 
-                        <StackPanel Grid.Column="1">
-                            <TextBlock>
-                                <Run Text="{x:Bind Name}" FontWeight="SemiBold"/>
-                                <Run Text="{x:Bind common:Converters.Username(Username)}" Foreground="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}"/>
-                            </TextBlock>
-                            <TextBlock
-                                Text="{x:Bind Bio}"
-                                TextWrapping="Wrap"
-                                TextTrimming="CharacterEllipsis"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                MaxLines="2"/>
-                        </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock>
+                                        <Run Text="{x:Bind Name}" FontWeight="SemiBold"/>
+                                        <Run Text="{x:Bind common:Converters.Username(Username)}" Foreground="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}"/>
+                                    </TextBlock>
+                                    <TextBlock
+                                        Text="{x:Bind Bio}"
+                                        TextWrapping="Wrap"
+                                        TextTrimming="CharacterEllipsis"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        MaxLines="2"/>
+                                </StackPanel>
 
-                        <ToggleButton
-                            IsChecked="{x:Bind isFollowed()}"
-                            Content="{CustomResource Follow}"
-                            Grid.Column="2"/>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                                <ToggleButton
+                                    IsChecked="{x:Bind isFollowed()}"
+                                    Content="{CustomResource Follow}"
+                                    Grid.Column="2"/>
+                            </Grid>
+                        </DataTemplate>
+                    </selectors:FollowListTemplateSelector.UserTemplate>
+                </selectors:FollowListTemplateSelector>
+            </ListView.ItemTemplateSelector>
         </ListView>
     </Grid>
 </Page>

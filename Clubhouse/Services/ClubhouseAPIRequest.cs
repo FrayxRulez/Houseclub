@@ -6,23 +6,26 @@ namespace Clubhouse.Services
 {
     public abstract class ClubhouseAPIRequest<T> /*: APIRequest<T>*/
     {
-        public string path;
-        public HttpMethod method;
+        public string Path;
+        public HttpMethod Method;
         public Dictionary<string, string> queryParams;
-        public object requestBody;
+        public object Content;
         //public File fileToUpload;
         public Uri contentUriToUpload;
         public String fileFieldName, fileMimeType;
 
         //private ProgressDialog progress;
 
+        public bool RequiresAuthorization { get; protected set; } = true;
+        public bool RequiresInitialization { get; protected set; } = true;
+
         readonly bool canceled;
         //Call currentRequest;
 
         public ClubhouseAPIRequest(HttpMethod method, String path)
         {
-            this.path = path;
-            this.method = method;
+            Path = path;
+            Method = method;
         }
 
         //      @Override

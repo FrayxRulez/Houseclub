@@ -1,24 +1,28 @@
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace Clubhouse.Services.Methods
 {
     public class AcceptSpeakerInvite : ClubhouseAPIRequest<BaseResponse>
     {
-        public AcceptSpeakerInvite(string channel, int userID)
+        public AcceptSpeakerInvite(string channel, ulong userID)
             : base(HttpMethod.Post, "accept_speaker_invite")
         {
-            requestBody = new Body(channel, userID);
+            Content = new Body(channel, userID);
         }
 
         private class Body
         {
-            public string channel { get; set; }
-            public int userId { get; set; }
+            [JsonPropertyName("channel")]
+            public string Channel { get; set; }
 
-            public Body(string channel, int userId)
+            [JsonPropertyName("user_id")]
+            public ulong UserId { get; set; }
+
+            public Body(string channel, ulong userId)
             {
-                this.channel = channel;
-                this.userId = userId;
+                Channel = channel;
+                UserId = userId;
             }
         }
     }

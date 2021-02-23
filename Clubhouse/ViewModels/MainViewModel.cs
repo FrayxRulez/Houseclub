@@ -29,7 +29,7 @@ namespace Clubhouse.ViewModels
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            await LoadSelfAsync();
+            await LoadMeAsync();
 
             var response = await DataService.SendAsync(new GetChannels());
             if (response != null)
@@ -51,11 +51,14 @@ namespace Clubhouse.ViewModels
             await LoadOnlineFriendsAsync();
         }
 
-        private async Task LoadSelfAsync()
+        private async Task LoadMeAsync()
         {
-            var response = await DataService.SendAsync(new GetProfile(ClubhouseSession.userID));
+            var response = await DataService.SendAsync(new Me(true, true));
             if (response != null)
             {
+                HasUnreadNotifications = response.HasUnreadNotifications;
+                ActionableNotificationsCount = response.ActionableNotificationsCount;
+
                 Self = response.UserProfile;
             }
         }
@@ -85,6 +88,20 @@ namespace Clubhouse.ViewModels
         {
             get => _self;
             set => Set(ref _self, value);
+        }
+
+        private bool _hasUnreadNotifications;
+        public bool HasUnreadNotifications
+        {
+            get => _hasUnreadNotifications;
+            set => Set(ref _hasUnreadNotifications, value);
+        }
+
+        private int _actionableNotificationsCount;
+        public int ActionableNotificationsCount
+        {
+            get => _actionableNotificationsCount;
+            set => Set(ref _actionableNotificationsCount, value);
         }
 
         public async void JoinChannel(Channel channel)

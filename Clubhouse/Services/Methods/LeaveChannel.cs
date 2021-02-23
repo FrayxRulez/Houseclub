@@ -7,7 +7,7 @@ namespace Clubhouse.Services.Methods
         public LeaveChannel(string channelName)
             : base(HttpMethod.Post, "leave_channel")
         {
-            requestBody = new Body(channelName);
+            Content = new Body(channelName);
         }
 
         private class Body

@@ -9,7 +9,7 @@ namespace Clubhouse.Services.Methods
                 : base(HttpMethod.Post, "start_phone_number_auth")
 
         {
-            requestBody = new Body(phoneNumber);
+            Content = new Body(phoneNumber);
         }
 
         private class Body

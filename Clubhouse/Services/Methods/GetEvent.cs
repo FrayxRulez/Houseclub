@@ -1,5 +1,6 @@
 using Clubhouse.Models;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace Clubhouse.Services.Methods
 {
@@ -8,22 +9,24 @@ namespace Clubhouse.Services.Methods
         public GetEvent(string id)
             : base(HttpMethod.Post, "get_event")
         {
-            requestBody = new Body(id);
+            Content = new Body(id);
         }
 
         private class Body
         {
-            public string eventHashid { get; set; }
+            [JsonPropertyName("event_hashid")]
+            public string EventHashId { get; set; }
 
             public Body(string eventHashid)
             {
-                this.eventHashid = eventHashid;
+                EventHashId = eventHashid;
             }
         }
 
-        public class Response
+        public class Response : BaseResponse
         {
-            public Event eventz { get; set; }
+            [JsonPropertyName("event")]
+            public Event Event { get; set; }
         }
     }
 }

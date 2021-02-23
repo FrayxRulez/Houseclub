@@ -10,7 +10,7 @@ namespace Clubhouse.Services.Methods
         public CompletePhoneNumberAuth(string phoneNumber, string code)
             : base(HttpMethod.Post, "complete_phone_number_auth")
         {
-            requestBody = new Body(phoneNumber, code);
+            Content = new Body(phoneNumber, code);
         }
 
         private class Body
@@ -28,7 +28,7 @@ namespace Clubhouse.Services.Methods
             }
         }
 
-        public class Response
+        public class Response : BaseResponse
         {
             [JsonPropertyName("auth_token")]
             public string AuthToken { get; set; }

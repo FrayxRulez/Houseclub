@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace Clubhouse.Services.Methods
 {
@@ -9,10 +10,13 @@ namespace Clubhouse.Services.Methods
         {
         }
 
-        public class Response
+        public class Response : BaseResponse
         {
-            public bool isWaitlisted { get; set; }
-            public bool isOnboarding { get; set; }
+            [JsonPropertyName("is_waitlisted")]
+            public bool IsWaitlisted { get; set; }
+
+            [JsonPropertyName("is_onboarding")]
+            public bool IsOnboarding { get; set; }
         }
     }
 }

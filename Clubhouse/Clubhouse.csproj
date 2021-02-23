@@ -147,8 +147,10 @@
     <Compile Include="Controls\Cells\RoomUserCell.xaml.cs">
       <DependentUpon>RoomUserCell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FollowButton.cs" />
     <Compile Include="Controls\GlyphButton.cs" />
     <Compile Include="Controls\LottieView.cs" />
+    <Compile Include="Controls\MoreButton.cs" />
     <Compile Include="Controls\PhoneTextBox.cs" />
     <Compile Include="Controls\ProfilePicture.cs" />
     <Compile Include="Controls\Superellipse.cs" />
@@ -163,7 +165,12 @@
     <Compile Include="Models\Club.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\OnlineUser.cs" />
+    <Compile Include="Selectors\FollowListTemplateSelector.cs" />
+    <Compile Include="Services\Methods\GetFollowListBase.cs" />
+    <Compile Include="Services\Methods\GetMutualFollows.cs" />
     <Compile Include="Services\Methods\GetOnlineFriends.cs" />
+    <Compile Include="Services\Methods\Me.cs" />
+    <Compile Include="Services\Methods\RefreshToken.cs" />
     <Compile Include="Services\VoiceService.cs" />
     <Compile Include="Strings\en\Resources.cs">
       <AutoGen>True</AutoGen>

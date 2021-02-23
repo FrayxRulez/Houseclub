@@ -12,7 +12,7 @@ namespace Clubhouse.Services.Methods
         {
         }
 
-        public class Response
+        public class Response : BaseResponse
         {
             [JsonPropertyName("channels")]
             public List<Channel> Channels { get; set; }

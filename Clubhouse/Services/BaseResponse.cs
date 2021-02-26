@@ -18,4 +18,16 @@ namespace Clubhouse.Services
                     " }";
         }
     }
+
+    public class PagedResponse : BaseResponse
+    {
+        [JsonPropertyName("count")]
+        public int Count { get; set; }
+
+        [JsonPropertyName("previous")]
+        public int? Previous { get; set; }
+
+        [JsonPropertyName("next")]
+        public int? Next { get; set; }
+    }
 }

@@ -91,10 +91,13 @@ namespace Clubhouse.ViewModels
                             }
                         }
 
-                        foreach (var item in response.Users)
+                        if (response.Users != null)
                         {
-                            Add(item);
-                            count++;
+                            foreach (var item in response.Users)
+                            {
+                                Add(item);
+                                count++;
+                            }
                         }
 
                         _page = response.Next ?? 1;

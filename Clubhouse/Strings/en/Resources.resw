@@ -123,6 +123,9 @@
   <data name="CreateChannel" xml:space="preserve">
     <value>Start a room</value>
   </data>
+  <data name="EventFromClub" xml:space="preserve">
+    <value>From {0}</value>
+  </data>
   <data name="Follow" xml:space="preserve">
     <value>Follow</value>
   </data>

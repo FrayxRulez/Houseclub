@@ -56,5 +56,10 @@ namespace Clubhouse
         {
             ViewModel.NavigationService.Popup.Navigate(typeof(InvitesPage));
         }
+
+        private void Events_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            ViewModel.NavigationService.Navigate(typeof(EventsPage));
+        }
     }
 }

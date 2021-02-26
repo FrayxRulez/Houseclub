@@ -36,6 +36,7 @@
                 Grid.Column="2"/>
 
             <controls:GlyphButton
+                Click="Events_Click"
                 Glyph="&#xE903;"
                 Grid.Column="3"/>
 

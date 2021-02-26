@@ -18,7 +18,7 @@ namespace Clubhouse.Controls.Cells
 
         private void SetEvent(Event value)
         {
-            TimeStart.Text = value.timeStart.ToString("HH:mm");
+            TimeStart.Text = value.TimeStart.ToString("HH:mm");
 
             if (value.Club != null)
             {

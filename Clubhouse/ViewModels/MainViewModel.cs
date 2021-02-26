@@ -66,7 +66,7 @@ namespace Clubhouse.ViewModels
         private async Task LoadOnlineFriendsAsync()
         {
             var response = await DataService.SendAsync(new GetOnlineFriends());
-            if (response != null)
+            if (response?.Users != null)
             {
                 OnlineUsers.Clear();
 

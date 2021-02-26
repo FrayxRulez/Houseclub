@@ -17,7 +17,7 @@
 // 	This code contains a helper class exposing property representations
 // 	of the string resources defined in the specified .ResW file
 // 
-// 	Generated: 02/23/2021 14:07:21
+// 	Generated: 02/26/2021 15:31:20
 // </auto-generatedInfo>
 // --------------------------------------------------------------------------------------------------
 namespace Clubhouse.Strings
@@ -68,6 +68,17 @@ namespace Clubhouse.Strings
             get
             {
                 return Resource.GetString("CreateChannel");
+            }
+        }
+        
+        /// <summary>
+        /// Localized resource similar to "From {0}"
+        /// </summary>
+        public static string EventFromClub
+        {
+            get
+            {
+                return Resource.GetString("EventFromClub");
             }
         }
         

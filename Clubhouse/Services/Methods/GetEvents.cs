@@ -5,14 +5,13 @@ using System.Text.Json.Serialization;
 
 namespace Clubhouse.Services.Methods
 {
-    public class GetFollowListBase : ClubhouseAPIRequest<GetFollowListBase.Response>
+    public class GetEvents : ClubhouseAPIRequest<GetEvents.Response>
     {
-        public GetFollowListBase(string path, ulong userID, int pageSize, int page)
-            : base(HttpMethod.Get, path)
+        public GetEvents(int pageSize, int page)
+            : base(HttpMethod.Get, "get_events")
         {
             QueryParameters = new Dictionary<string, string>
             {
-                { "user_id", $"{userID}" },
                 { "page_size", $"{pageSize}" },
                 { "page", $"{page}" }
             };
@@ -20,11 +19,8 @@ namespace Clubhouse.Services.Methods
 
         public class Response : PagedResponse
         {
-            [JsonPropertyName("clubs")]
-            public List<Club> Clubs { get; set; }
-
-            [JsonPropertyName("users")]
-            public List<FullUser> Users { get; set; }
+            [JsonPropertyName("events")]
+            public List<Event> Events { get; set; }
         }
     }
 }

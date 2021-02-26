@@ -49,6 +49,10 @@
             {
                 return (T)(object)new Clubhouse.ViewModels.InvitesViewModel(_dataService);
             }
+            else if (type == typeof(Clubhouse.ViewModels.EventsViewModel))
+            {
+                return (T)(object)new Clubhouse.ViewModels.EventsViewModel(_dataService);
+            }
 
             return default;
         }

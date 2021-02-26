@@ -144,6 +144,9 @@
     <Compile Include="Controls\Cells\EventCalendarCell.xaml.cs">
       <DependentUpon>EventCalendarCell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Cells\EventCell.xaml.cs">
+      <DependentUpon>EventCell.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Cells\RoomUserCell.xaml.cs">
       <DependentUpon>RoomUserCell.xaml</DependentUpon>
     </Compile>
@@ -171,6 +174,7 @@
     <Compile Include="Selectors\FollowListTemplateSelector.cs" />
     <Compile Include="Selectors\NotificationTemplateSelector.cs" />
     <Compile Include="Services\Methods\GetActionableNotifications.cs" />
+    <Compile Include="Services\Methods\GetEvents.cs" />
     <Compile Include="Services\Methods\GetFollowListBase.cs" />
     <Compile Include="Services\Methods\GetMutualFollows.cs" />
     <Compile Include="Services\Methods\GetNotifications.cs" />
@@ -186,6 +190,7 @@
     </Compile>
     <Compile Include="ViewModels\Delegates\IListViewDelegate.cs" />
     <Compile Include="ViewModels\Delegates\IViewModelDelegate.cs" />
+    <Compile Include="ViewModels\EventsViewModel.cs" />
     <Compile Include="ViewModels\FollowListViewModel.cs" />
     <Compile Include="ViewModels\InvitesViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
@@ -193,6 +198,9 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Views\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EventsPage.xaml.cs">
+      <DependentUpon>EventsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FollowListPage.xaml.cs">
       <DependentUpon>FollowListPage.xaml</DependentUpon>
@@ -360,6 +368,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Cells\EventCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Cells\RoomUserCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -377,6 +389,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BlankPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EventsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

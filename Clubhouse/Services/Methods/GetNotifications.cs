@@ -17,19 +17,10 @@ namespace Clubhouse.Services.Methods
             };
         }
 
-        public class Response : BaseResponse
+        public class Response : PagedResponse
         {
             [JsonPropertyName("notifications")]
             public List<Notification> Notifications { get; set; }
-
-            [JsonPropertyName("count")]
-            public int Count { get; set; }
-
-            [JsonPropertyName("next")]
-            public int? Next { get; set; }
-
-            [JsonPropertyName("previous")]
-            public int? Previous { get; set; }
         }
     }
 }

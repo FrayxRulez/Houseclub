@@ -7,16 +7,16 @@ namespace Clubhouse.Models
     public class Event
 	{
 		[JsonPropertyName("channel")]
-		public string channel { get; set; }
+		public string Channel { get; set; }
 
 		[JsonPropertyName("is_expired")]
-		public bool isExpired { get; set; }
+		public bool IsExpired { get; set; }
 
 		[JsonPropertyName("time_start")]
-		public DateTime timeStart { get; set; }
+		public DateTime TimeStart { get; set; }
 
 		[JsonPropertyName("description")]
-		public string description { get; set; }
+		public string Description { get; set; }
 
 		[JsonPropertyName("name")]
 		public string Name { get; set; }
@@ -25,18 +25,18 @@ namespace Clubhouse.Models
 		public Club Club { get; set; }
 
 		[JsonPropertyName("event_id")]
-		public int eventId { get; set; }
+		public int EventId { get; set; }
 
 		[JsonPropertyName("is_member_only")]
-		public bool isMemberOnly { get; set; }
+		public bool IsMemberOnly { get; set; }
 
 		[JsonPropertyName("hosts")]
-		public List<FullUser> hosts { get; set; }
+		public List<FullUser> Hosts { get; set; }
 
-		[JsonPropertyName("club_is_member")]
-		public bool clubIsMember { get; set; }
+		//[JsonPropertyName("club_is_member")]
+		//public bool ClubIsMember { get; set; }
 
-		[JsonPropertyName("club_is_follower")]
-		public bool clubIsFollower { get; set; }
+		//[JsonPropertyName("club_is_follower")]
+		//public bool ClubIsFollower { get; set; }
 	}
 }
